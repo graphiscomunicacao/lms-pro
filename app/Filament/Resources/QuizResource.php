@@ -3,6 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Models\Quiz;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Mockery\Matcher\Closure;
 use Filament\{Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
@@ -25,8 +29,12 @@ class QuizResource extends Resource
         return $form->schema([
             Grid::make(['default' => 0])->schema([
                 TextInput::make('name')
+                    ->reactive()
                     ->rules(['required', 'max:255', 'string'])
                     ->placeholder('Name')
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        $set('slug', Str::slug($state));
+                    })
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
@@ -34,6 +42,7 @@ class QuizResource extends Resource
                     ]),
 
                 TextInput::make('slug')
+                    ->reactive()
                     ->rules(['required', 'max:255', 'string'])
                     ->placeholder('Slug')
                     ->columnSpan([
@@ -64,6 +73,7 @@ class QuizResource extends Resource
                 TextInput::make('time_limit')
                     ->rules(['required', 'date_format:H:i:s'])
                     ->numeric()
+                    ->minValue(0)
                     ->placeholder('Time Limit')
                     ->columnSpan([
                         'default' => 12,

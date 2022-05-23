@@ -16,6 +16,8 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
+    protected static ?string $navigationGroup = 'Administrar';
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
