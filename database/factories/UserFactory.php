@@ -32,9 +32,9 @@ class UserFactory extends Factory
             'role_id' => \App\Models\Role::factory(),
             'job_id' => \App\Models\Job::factory(),
             'group_id' => \App\Models\Group::factory(),
-            'user_id' => function () {
+            'manager_id' => function () {
                 return \App\Models\User::factory()->create([
-                    'user_id' => null,
+                    'manager_id' => null,
                 ])->id;
             },
         ];

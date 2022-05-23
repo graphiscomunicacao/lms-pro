@@ -77,7 +77,7 @@ class UserResource extends Resource
                         'lg' => 12,
                     ]),
 
-                BelongsToSelect::make('user_id')
+                BelongsToSelect::make('manager_id')
                     ->rules(['nullable', 'exists:users,id'])
                     ->relationship('manager', 'name')
                     ->searchable()

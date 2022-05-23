@@ -30,7 +30,7 @@ class User extends Authenticatable
         'role_id',
         'job_id',
         'group_id',
-        'user_id',
+        'manager_id',
     ];
 
     protected $searchableFields = ['*'];

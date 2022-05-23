@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('total_experience');
+            $table->integer('total_experience')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('remember_token', 100)->nullable();
@@ -28,8 +28,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('job_id');
             $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('user_id')->nullable();
-
+            $table->unsignedBigInteger('manager_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
