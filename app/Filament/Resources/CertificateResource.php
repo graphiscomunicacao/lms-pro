@@ -16,7 +16,7 @@ class CertificateResource extends Resource
 {
     protected static ?string $model = Certificate::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
 
     protected static ?string $recordTitleAttribute = 'name';
 

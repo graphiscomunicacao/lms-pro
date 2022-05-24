@@ -20,7 +20,7 @@ class LearningPathResource extends Resource
 {
     protected static ?string $model = LearningPath::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static ?string $recordTitleAttribute = 'name';
 

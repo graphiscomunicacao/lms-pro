@@ -14,7 +14,7 @@ class GroupResource extends Resource
 {
     protected static ?string $model = Group::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-office-building';
 
     protected static ?string $recordTitleAttribute = 'name';
 

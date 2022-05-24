@@ -16,7 +16,7 @@ class SupportLinkResource extends Resource
 {
     protected static ?string $model = SupportLink::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-support';
 
     protected static ?string $recordTitleAttribute = 'name';
 
