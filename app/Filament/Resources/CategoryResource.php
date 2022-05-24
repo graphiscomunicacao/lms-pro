@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CategoryResource\Pages;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -26,6 +27,10 @@ class CategoryResource extends Resource
                 TextInput::make('name')
                     ->rules(['required', 'max:255', 'string'])
                     ->placeholder('Name')
+                    ->reactive()
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        $set('slug', Str::slug($state));
+                    })
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
@@ -35,6 +40,8 @@ class CategoryResource extends Resource
                 TextInput::make('slug')
                     ->rules(['required', 'max:255', 'string'])
                     ->placeholder('Slug')
+                    ->reactive()
+                    ->disabled()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
