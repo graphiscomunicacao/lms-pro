@@ -24,3 +24,8 @@ Homestead.json
 
 .idea/
 storage/debugbar/
+
+.idea/lms_pro.iml
+.idea/php.xml
+composer.lock
+package-lock.json
