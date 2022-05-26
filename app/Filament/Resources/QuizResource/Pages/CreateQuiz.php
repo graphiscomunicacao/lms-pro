@@ -22,7 +22,8 @@ class CreateQuiz extends CreateRecord
     {
         return [
             Step::make('Quiz')
-                ->description('Testando')
+                ->description('Nome e Descrição')
+                ->icon('heroicon-o-pencil')
                 ->schema([
                     TextInput::make('name')
                         ->label('Nome')
@@ -47,6 +48,7 @@ class CreateQuiz extends CreateRecord
                 ]),
             Step::make('Capa')
                 ->description('Capa utilizada para o quiz')
+                ->icon('heroicon-o-photograph')
                 ->schema([
                     FileUpload::make('cover_path')
                         ->label('Capa')
@@ -60,8 +62,9 @@ class CreateQuiz extends CreateRecord
                             'lg' => 12,
                         ]),
                 ]),
-            Step::make('Configs')
-                ->description('Testando')
+            Step::make('Detalhes')
+                ->description('Configurações Adicionais')
+                ->icon('heroicon-o-cog')
                 ->schema([
 
                     TextInput::make('time_limit')
@@ -91,10 +94,3 @@ class CreateQuiz extends CreateRecord
         ];
     }
 }
-
-
-//protected function mutateFormDataBeforeCreate(array $data): array
-//{
-//    $data['time_limit'] = date('Y-m-d H:i', strtotime(sprintf('- %d second', $data['time_limit'] * 60)));
-//    return $data;
-//}
