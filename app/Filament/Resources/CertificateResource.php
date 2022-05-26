@@ -70,10 +70,10 @@ class CertificateResource extends Resource
             Card::make()
                 ->schema([
                     Forms\Components\Placeholder::make('created_at')
-                        ->label('Criado há')
+                        ->label('Criado')
                         ->content(fn(?Certificate $record): string => $record ? $record->created_at->diffForHumans() : '-'),
                     Forms\Components\Placeholder::make('updated_at')
-                        ->label('Modificado há')
+                        ->label('Modificado')
                         ->content(fn(?Certificate $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                 ])
                 ->columnSpan(1),
