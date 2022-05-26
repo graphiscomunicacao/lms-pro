@@ -60,6 +60,7 @@ class QuizResource extends Resource
                             ]),
 
                         TextInput::make('time_limit')
+                            ->label('Tempo de realização')
                             ->numeric()
                             ->minValue(0)
                             ->step(5)
@@ -71,6 +72,7 @@ class QuizResource extends Resource
                             ]),
 
                         TextInput::make('experience_amount')
+                            ->label('Experiencia concedida')
                             ->numeric()
                             ->minValue(0)
                             ->step(10)
@@ -112,7 +114,9 @@ class QuizResource extends Resource
                 Tables\Columns\TextColumn::make('slug')->limit(50),
                 Tables\Columns\TextColumn::make('description')->limit(50),
                 Tables\Columns\ImageColumn::make('cover_path')->rounded(),
-                Tables\Columns\TextColumn::make('time_limit'),
+                Tables\Columns\TextColumn::make('time_limit')
+                    ->label('Tempo de Realização')
+                    ->formatStateUsing(fn (string $state): string => date('H:i', mktime(0,$state)) ),
             ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')
@@ -151,12 +155,6 @@ class QuizResource extends Resource
     public static function getRelations(): array
     {
         return [];
-    }
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['time_limit'] = date('Y-m-d H:i', strtotime(sprintf('- %d second', $data['time_limit'] * 60)));
-        return $data;
     }
 
     public static function getPages(): array

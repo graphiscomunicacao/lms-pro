@@ -25,8 +25,9 @@ class CreateQuiz extends CreateRecord
                 ->description('Testando')
                 ->schema([
                     TextInput::make('name')
+                        ->label('Nome')
                         ->rules(['required', 'max:255', 'string'])
-                        ->placeholder('Name')
+                        ->placeholder('Nome')
                         ->required()
                         ->columnSpan([
                             'default' => 12,
@@ -35,22 +36,24 @@ class CreateQuiz extends CreateRecord
                         ]),
 
                     RichEditor::make('description')
+                        ->label('Descrição')
                         ->rules(['nullable', 'max:255', 'string'])
-                        ->placeholder('Description')
+                        ->placeholder('Descrição breve')
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
                             'lg' => 12,
                         ]),
                 ]),
-            Step::make('Cover')
-                ->description('Testando')
+            Step::make('Capa')
+                ->description('Capa utilizada para o quiz')
                 ->schema([
                     FileUpload::make('cover_path')
+                        ->label('Capa')
                         ->rules(['image', 'max:1024'])
                         ->image()
                         ->required()
-                        ->placeholder('Cover Path')
+                        ->placeholder('Selecione uma imagem')
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
@@ -65,6 +68,7 @@ class CreateQuiz extends CreateRecord
                         ->numeric()
                         ->minValue(0)
                         ->step(5)
+                        ->default(10)
                         ->placeholder('Minutos')
                         ->columnSpan([
                             'default' => 6,
@@ -76,6 +80,7 @@ class CreateQuiz extends CreateRecord
                         ->numeric()
                         ->minValue(0)
                         ->step(10)
+                        ->default(10)
                         ->placeholder('Experience')
                         ->columnSpan([
                             'default' => 6,
@@ -86,3 +91,10 @@ class CreateQuiz extends CreateRecord
         ];
     }
 }
+
+
+//protected function mutateFormDataBeforeCreate(array $data): array
+//{
+//    $data['time_limit'] = date('Y-m-d H:i', strtotime(sprintf('- %d second', $data['time_limit'] * 60)));
+//    return $data;
+//}

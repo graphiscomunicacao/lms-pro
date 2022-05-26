@@ -17,10 +17,9 @@ return new class extends Migration {
             $table->string('name');
             $table->string('slug');
             $table->text('description')->nullable();
-            $table->time('time_limit');
+            $table->integer('time_limit');
             $table->string('cover_path');
             $table->integer('experience_amount');
-
             $table->timestamps();
             $table->softDeletes();
         });

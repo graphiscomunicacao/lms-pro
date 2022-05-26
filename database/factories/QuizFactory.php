@@ -26,7 +26,7 @@ class QuizFactory extends Factory
             'name' => $this->faker->name,
             'slug' => $this->faker->slug,
             'description' => $this->faker->sentence(15),
-            'time_limit' => $this->faker->time,
+            'time_limit' => $this->faker->numberBetween(5, 45),
             'cover_path' => $this->faker->text(255),
             'experience_amount' => $this->faker->randomNumber(0),
         ];
