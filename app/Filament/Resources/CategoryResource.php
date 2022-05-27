@@ -3,7 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Models\Category;
-use Filament\{Tables, Forms};
+use App\Models\Certificate;
+use Filament\{Forms\Components\Card, Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -20,44 +21,62 @@ class CategoryResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $label = 'Categoria';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(['default' => 0])->schema([
+            Card::make(['default' => 0])->schema([
                 TextInput::make('name')
                     ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Name')
-                    ->reactive()
-                    ->afterStateUpdated(function (callable $set, $state) {
-                        $set('slug', Str::slug($state));
-                    })
+                    ->placeholder('Nome')
+                    ->label('Nome')
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
 
-                TextInput::make('slug')
-                    ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Slug')
-                    ->reactive()
-                    ->disabled()
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+//                TextInput::make('slug')
+//                    ->rules(['required', 'max:255', 'string'])
+//                    ->placeholder('Slug')
+//                    ->columnSpan([
+//                        'default' => 12,
+//                        'md' => 12,
+//                        'lg' => 12,
+//                    ]),
 
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:2048'])
                     ->image()
-                    ->placeholder('Cover Path')
+                    ->placeholder('Imagem')
+                    ->label('Imagem')
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
-            ]),
+            ])
+                ->columns([
+                    'sm' => 2,
+                ])
+                ->columnSpan([
+                    'sm' => 2,
+                ]),
+            Card::make()
+                ->schema([
+                    Forms\Components\Placeholder::make('created_at')
+                        ->label('Criado')
+                        ->content(fn(?Category $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                    Forms\Components\Placeholder::make('updated_at')
+                        ->label('Modificado')
+                        ->content(fn(?Category $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                ])
+                ->columnSpan(1),
+        ])
+            ->columns([
+                'sm' => 3,
+                'lg' => null,
         ]);
     }
 
@@ -65,10 +84,19 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit(50),
-                Tables\Columns\TextColumn::make('slug')->limit(50),
-                Tables\Columns\ImageColumn::make('cover_path')->rounded(),
+                Tables\Columns\ImageColumn::make('cover_path')
+                    ->rounded()
+                    ->label('Imagem'),
+                Tables\Columns\TextColumn::make('name')
+                    ->limit(50)
+                    ->label('Nome')
+                    ->searchable()
+                    ->sortable(),
+//                Tables\Columns\TextColumn::make('slug')
+//                    ->limit(50)
+//                    ->label('Endereço'),
             ])
+            ->defaultSort('name')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
