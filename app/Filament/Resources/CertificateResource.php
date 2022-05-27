@@ -42,7 +42,6 @@ class CertificateResource extends Resource
                         ->rules(['nullable', 'max:255', 'string'])
                         ->placeholder('Descrição')
                         ->label('Descrição')
-                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
