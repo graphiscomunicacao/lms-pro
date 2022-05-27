@@ -88,7 +88,7 @@ class LearningArtifactResource extends Resource
                             ]),
 
                         FileUpload::make('path')
-                        ->rules(['file'])
+                        ->rules(['file', 'max:131072'])
                         ->label('Selecione o arquivo')
                         ->placeholder('Arquivo')
                         ->visible(fn (Closure $get) => $get('external') === false)
