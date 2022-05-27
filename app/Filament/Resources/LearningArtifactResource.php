@@ -13,6 +13,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\LearningArtifactResource\Pages;
+use Closure;
+use Filament\Forms\Components\BelongsToManyMultiSelect;
+use Filament\Forms\Components\Card;
 
 class LearningArtifactResource extends Resource
 {
@@ -22,103 +25,132 @@ class LearningArtifactResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public $data;
+
     public static function form(Form $form): Form
     {
-        return $form->schema([
-            Grid::make(['default' => 0])->schema([
-                TextInput::make('name')
-                    ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Name')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+        return $form
+            ->schema([
+                Card::make(['default' => 0])
+                    ->schema([
+                        TextInput::make('name')
+                            ->rules(['required', 'max:255', 'string'])
+                            ->placeholder('Name')
+                            ->label('Nome')
+                            ->columnSpan([
+                                'default' => 12,
+                                'md' => 12,
+                                'lg' => 12,
+                            ]),
 
-                Select::make('type')
-                    ->rules([
-                        'required',
-                        'in:audio,document,interactive,image,video,externo',
+                        BelongsToManyMultiSelect::make('categories')
+                            ->label('Categorias')
+                            ->relationship('categories', 'name')
+                            ->columnSpan([
+                                        'default' => 6,
+                                        'md' => 6,
+                                        'lg' => 6,
+                                    ]),
+
+                        TextInput::make('experience_amount')
+                                    ->rules(['required'])
+                                    ->label('Experiência concedida')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->step(10)
+                                    ->placeholder('Pontos')
+                                    ->columnSpan([
+                                        'default' => 6,
+                                        'md' => 6,
+                                        'lg' => 6,
+                                    ]),
+
+
+
+                        RichEditor::make('description')
+                            ->rules(['nullable', 'max:255', 'string'])
+                            ->label('Descrição')
+                            ->placeholder('Descrição')
+                            ->columnSpan([
+                                'default' => 12,
+                                'md' => 12,
+                                'lg' => 12,
+                            ]),
+
+                        Toggle::make('external')
+                            ->rules(['required', 'boolean'])
+                            ->label('Conteúdo externo')
+                            ->reactive()
+                            ->columnSpan([
+                                'default' => 12,
+                                'md' => 12,
+                                'lg' => 12,
+                            ]),
+
+                        FileUpload::make('path')
+                        ->rules(['file'])
+                        ->label('Selecione o arquivo')
+                        ->placeholder('Arquivo')
+                        ->visible(fn (Closure $get) => $get('external') === false)
+                        ->columnSpan([
+                            'default' => 12,
+                            'md' => 12,
+                            'lg' => 12,
+                        ]),
+
+                        TextInput::make('url')
+                            ->rules(['nullable', 'url'])
+                            ->url()
+                            ->placeholder('Url')
+                            ->visible(fn (Closure $get) => $get('external') === true)
+                            ->columnSpan([
+                                'default' => 12,
+                                'md' => 12,
+                                'lg' => 12,
+                            ]),
+
+                        FileUpload::make('cover_path')
+                            ->rules(['required','image', 'max:1024'])
+                            ->image()
+                            ->placeholder('Cover Path')
+                            ->columnSpan([
+                                'default' => 12,
+                                'md' => 12,
+                                'lg' => 12,
+                            ]),
                     ])
-                    ->searchable()
-                    ->options([
-                        'audio' => 'Audio',
-                        'document' => 'Document',
-                        'interactive' => 'Interactive',
-                        'image' => 'Image',
-                        'video' => 'Video',
-                        'externo' => 'Externo',
+                    ->columns([
+                        'sm' => 2,
                     ])
-                    ->placeholder('Type')
                     ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
+                        'sm' => 2,
                     ]),
 
-                FileUpload::make('path')
-                    ->rules(['file', 'max:1024'])
-                    ->placeholder('Path')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                Card::make()
+                    ->schema([
+                        Forms\Components\Placeholder::make('created_at')
+                            ->label('Created at')
+                            ->content(fn(?LearningArtifact $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                        Forms\Components\Placeholder::make('updated_at')
+                            ->label('Last modified at')
+                            ->content(fn(?LearningArtifact $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                    ])
+                    ->columnSpan(1),
 
-                TextInput::make('size')
-                    ->rules(['required', 'numeric'])
-                    ->numeric()
-                    ->placeholder('Size')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-
-                RichEditor::make('description')
-                    ->rules(['nullable', 'max:255', 'string'])
-                    ->placeholder('Description')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-
-                Toggle::make('external')
-                    ->rules(['required', 'boolean'])
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-
-                TextInput::make('url')
-                    ->rules(['nullable', 'url'])
-                    ->url()
-                    ->placeholder('Url')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-
-                TextInput::make('cover_path')
-                    ->rules(['nullable', 'max:255', 'string'])
-                    ->placeholder('Cover Path')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-            ]),
-        ]);
+            ])
+            ->columns([
+            'sm' => 3,
+            'lg' => null,
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit(50),
+                Tables\Columns\ImageColumn::make('cover_path')->rounded()->label('Capa'),
+                Tables\Columns\TextColumn::make('name')->limit(10)->label('Nome')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('type')->enum([
                     'audio' => 'Audio',
                     'document' => 'Document',
@@ -126,13 +158,12 @@ class LearningArtifactResource extends Resource
                     'image' => 'Image',
                     'video' => 'Video',
                     'externo' => 'Externo',
-                ]),
-                Tables\Columns\TextColumn::make('size'),
-                Tables\Columns\TextColumn::make('description')->limit(50),
-                Tables\Columns\BooleanColumn::make('external'),
-                Tables\Columns\TextColumn::make('url')->limit(50),
-                Tables\Columns\TextColumn::make('cover_path')->limit(50),
+                ])->label('Tipo'),
+                Tables\Columns\TextColumn::make('size')->label('Tamanho'),
+                Tables\Columns\BooleanColumn::make('external')->label('Externo'),
+                Tables\Columns\TextColumn::make('url')->limit(20),
             ])
+            ->defaultSort('id','desc')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
