@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Mockery\Matcher\Closure;
-use Filament\{Forms\Components\Card, Forms\Components\TimePicker, Tables, Forms};
+use Filament\{Forms\Components\Card, Forms\Components\Group, Forms\Components\TimePicker, Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -25,66 +25,93 @@ class QuizResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $label = "Quiz";
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Card::make(['default' => 0])
+                Group::make()
                     ->schema([
-                        TextInput::make('name')
-                            ->rules(['required', 'max:255', 'string'])
-                            ->placeholder('Name')
-                            ->columnSpan([
+                        Card::make(['default' => 0])
+                            ->schema([
+                                TextInput::make('name')
+                                    ->label('Nome')
+                                    ->rules(['required', 'max:255', 'string'])
+                                    ->required()
+                                    ->placeholder('Nome do Quiz')
+                                    ->columnSpan([
+                                        'default' => 12,
+                                        'md' => 12,
+                                        'lg' => 12,
+                                    ]),
+
+                                RichEditor::make('description')
+                                    ->label('Descrição')
+                                    ->rules(['nullable', 'max:255', 'string'])
+                                    ->placeholder('Description')
+                                    ->columnSpan([
+                                        'default' => 12,
+                                        'md' => 12,
+                                        'lg' => 12,
+                                    ]),
+
+                                FileUpload::make('cover_path')
+                                    ->label('Capa')
+                                    ->rules(['image', 'max:1024'])
+                                    ->image()
+                                    ->required()
+                                    ->placeholder('Cover Path')
+                                    ->columnSpan([
+                                        'default' => 12,
+                                        'md' => 12,
+                                        'lg' => 12,
+                                    ]),
+
+                            ])
+                            ->columns([
                                 'default' => 12,
-                                'md' => 12,
-                                'lg' => 12,
-                            ]),
-
-                        RichEditor::make('description')
-                            ->rules(['nullable', 'max:255', 'string'])
-                            ->placeholder('Description')
+                                'sm' => 12,
+                            ])
                             ->columnSpan([
+                                'sm' => 2,
+                            ]),
+                        Card::make(['default' => 0])
+                            ->schema([
+
+                                TextInput::make('time_limit')
+                                    ->label('Tempo de realização (minutos)')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->step(5)
+                                    ->required()
+                                    ->placeholder('Time Limit')
+                                    ->columnSpan([
+                                        'default' => 6,
+                                        'md' => 6,
+                                        'lg' => 6,
+                                    ]),
+
+                                TextInput::make('experience_amount')
+                                    ->label('Experiência concedida')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->step(10)
+                                    ->placeholder('Experience')
+                                    ->columnSpan([
+                                        'default' => 6,
+                                        'md' => 6,
+                                        'lg' => 6,
+                                    ]),
+
+                            ])
+                            ->columns([
                                 'default' => 12,
-                                'md' => 12,
-                                'lg' => 12,
-                            ]),
-
-                        FileUpload::make('cover_path')
-                            ->rules(['image', 'max:1024'])
-                            ->image()
-                            ->placeholder('Cover Path')
+                                'sm' => 12,
+                            ])
                             ->columnSpan([
-                                'default' => 12,
-                                'md' => 12,
-                                'lg' => 12,
+                                'sm' => 2,
                             ]),
-
-                        TextInput::make('time_limit')
-                            ->label('Tempo de realização')
-                            ->numeric()
-                            ->minValue(0)
-                            ->step(5)
-                            ->placeholder('Time Limit')
-                            ->columnSpan([
-                                'default' => 6,
-                                'md' => 6,
-                                'lg' => 6,
-                            ]),
-
-                        TextInput::make('experience_amount')
-                            ->label('Experiencia concedida')
-                            ->numeric()
-                            ->minValue(0)
-                            ->step(10)
-                            ->placeholder('Experience')
-                            ->columnSpan([
-                                'default' => 6,
-                                'md' => 6,
-                                'lg' => 6,
-                            ]),
-                    ])
-                    ->columns([
-                        'sm' => 2,
                     ])
                     ->columnSpan([
                         'sm' => 2,
@@ -92,10 +119,10 @@ class QuizResource extends Resource
                 Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
+                            ->label('Criado')
                             ->content(fn(?Quiz $record): string => $record ? $record->created_at->diffForHumans() : '-'),
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
+                            ->label('Modificado')
                             ->content(fn(?Quiz $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])
                     ->columnSpan(1),
@@ -110,10 +137,8 @@ class QuizResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit(50),
-                Tables\Columns\TextColumn::make('slug')->limit(50),
-                Tables\Columns\TextColumn::make('description')->limit(50),
-                Tables\Columns\ImageColumn::make('cover_path')->rounded(),
+                Tables\Columns\ImageColumn::make('cover_path')->rounded()->label('Capa'),
+                Tables\Columns\TextColumn::make('name')->limit(50)->label('Nome'),
                 Tables\Columns\TextColumn::make('time_limit')
                     ->label('Tempo de Realização')
                     ->formatStateUsing(fn (string $state): string => date('H:i', mktime(0,$state)) ),
@@ -154,7 +179,9 @@ class QuizResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            QuizResource\RelationManagers\ObjectiveQuestionsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

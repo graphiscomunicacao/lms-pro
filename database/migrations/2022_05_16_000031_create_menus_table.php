@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('menus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('cover_path');
 
             $table->timestamps();
