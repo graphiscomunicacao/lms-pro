@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Category;
 use App\Models\Job;
-use Filament\{Tables, Forms};
+use Filament\{Forms\Components\Card, Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -18,26 +19,54 @@ class JobResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $label = 'Equipe';
+
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Grid::make(['default' => 0])->schema([
+            Card::make(['default' => 0])->schema([
                 TextInput::make('name')
                     ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Name')
+                    ->placeholder('Nome')
+                    ->label('Nome')
+                    ->required()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
+            ])
+            ->columns([
+                'sm' => 2,
+            ])
+            ->columnSpan([
+                'sm' => 2,
             ]),
-        ]);
+            Card::make()
+                ->schema([
+                    Forms\Components\Placeholder::make('created_at')
+                        ->label('Criado')
+                        ->content(fn(?Job $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                    Forms\Components\Placeholder::make('updated_at')
+                        ->label('Modificado')
+                        ->content(fn(?Job $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                ])->columnSpan(1),
+            ])
+            ->columns([
+                'sm' => 3,
+                'lg' => null,
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('name')->limit(50)])
+            ->columns([Tables\Columns\TextColumn::make('name')
+                ->label('Nome')
+                ->searchable()
+                ->sortable()
+                ->limit(50)])
+            ->defaultSort('name')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
