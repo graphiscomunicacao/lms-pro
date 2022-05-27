@@ -23,8 +23,8 @@ return new class extends Migration {
                 'video',
                 'externo',
             ]);
-            $table->decimal('size');
-            $table->string('path');
+            $table->decimal('size')->nullable();
+            $table->string('path')->nullable();
             $table->text('description')->nullable();
             $table->boolean('external');
             $table->string('url')->nullable();

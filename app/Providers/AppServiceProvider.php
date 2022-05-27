@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\LearningArtifact;
+use App\Observers\LearningArtifactObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        LearningArtifact::observe(LearningArtifactObserver::class);
     }
 }
