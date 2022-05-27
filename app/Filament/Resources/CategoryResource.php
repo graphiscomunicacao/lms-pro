@@ -31,6 +31,7 @@ class CategoryResource extends Resource
                     ->rules(['required', 'max:255', 'string'])
                     ->placeholder('Nome')
                     ->label('Nome')
+                    ->required()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
@@ -51,6 +52,7 @@ class CategoryResource extends Resource
                     ->image()
                     ->placeholder('Imagem')
                     ->label('Imagem')
+                    ->required()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
