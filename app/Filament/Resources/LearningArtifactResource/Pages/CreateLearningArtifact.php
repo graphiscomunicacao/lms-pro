@@ -22,6 +22,7 @@ class CreateLearningArtifact extends CreateRecord
         return [
             Step::make('Informações')
                 ->description('Definir nome, categoria e pontos de exeperiência')
+                ->icon('heroicon-o-pencil')
                 ->schema([
                     TextInput::make('name')
                         ->rules(['required', 'max:255', 'string'])
@@ -58,6 +59,7 @@ class CreateLearningArtifact extends CreateRecord
 
             Step::make('Upload do arquivo ou conteúdo externo')
                 ->description('Definir se é upload de arquivo ou conteúdo externo')
+                ->icon('heroicon-o-collection')
                 ->schema([
                     Toggle::make('external')
                         ->rules(['required', 'boolean'])
@@ -70,7 +72,7 @@ class CreateLearningArtifact extends CreateRecord
                         ]),
 
                     FileUpload::make('path')
-                        ->rules(['file'])
+                        ->rules(['file', 'max:131072'])
                         ->label('Selecione o arquivo')
                         ->placeholder('Arquivo')
                         ->visible(fn (Closure $get) => $get('external') === false)
@@ -94,6 +96,7 @@ class CreateLearningArtifact extends CreateRecord
 
             Step::make('Informações extras')
                 ->description('Capa e Descrição do Learning Artifact')
+                ->icon('heroicon-o-photograph')
                 ->schema([
                     FileUpload::make('cover_path')
                         ->rules(['required','image', 'max:1024'])
