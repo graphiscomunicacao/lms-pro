@@ -51,8 +51,8 @@ class MenuResource extends Resource
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:1024'])
                     ->image()
-                    ->placeholder('Imagem')
-                    ->label('Imagem')
+                    ->placeholder('Capa')
+                    ->label('Capa')
                     ->required()
                     ->columnSpan([
                         'default' => 12,
@@ -88,7 +88,7 @@ class MenuResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_path')
-                    ->label('Imagem')
+                    ->label('Capa')
                     ->rounded(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
