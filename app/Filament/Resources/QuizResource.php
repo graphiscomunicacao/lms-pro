@@ -36,9 +36,10 @@ class QuizResource extends Resource
                         Card::make(['default' => 0])
                             ->schema([
                                 TextInput::make('name')
+                                    ->label('Nome')
                                     ->rules(['required', 'max:255', 'string'])
                                     ->required()
-                                    ->placeholder('Name')
+                                    ->placeholder('Nome do Quiz')
                                     ->columnSpan([
                                         'default' => 12,
                                         'md' => 12,
@@ -46,6 +47,7 @@ class QuizResource extends Resource
                                     ]),
 
                                 RichEditor::make('description')
+                                    ->label('Descrição')
                                     ->rules(['nullable', 'max:255', 'string'])
                                     ->placeholder('Description')
                                     ->columnSpan([
@@ -55,6 +57,7 @@ class QuizResource extends Resource
                                     ]),
 
                                 FileUpload::make('cover_path')
+                                    ->label('Capa')
                                     ->rules(['image', 'max:1024'])
                                     ->image()
                                     ->required()
@@ -116,10 +119,10 @@ class QuizResource extends Resource
                 Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
+                            ->label('Criado')
                             ->content(fn(?Quiz $record): string => $record ? $record->created_at->diffForHumans() : '-'),
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
+                            ->label('Modificado')
                             ->content(fn(?Quiz $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])
                     ->columnSpan(1),

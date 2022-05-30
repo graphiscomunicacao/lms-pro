@@ -28,7 +28,7 @@ class CreateQuiz extends CreateRecord
                     TextInput::make('name')
                         ->label('Nome')
                         ->rules(['required', 'max:255', 'string'])
-                        ->placeholder('Nome')
+                        ->placeholder('Nome do Quiz')
                         ->required()
                         ->columnSpan([
                             'default' => 12,
@@ -68,10 +68,12 @@ class CreateQuiz extends CreateRecord
                 ->schema([
 
                     TextInput::make('time_limit')
+                        ->label('Tempo para Realização (minutos)')
                         ->numeric()
                         ->minValue(0)
                         ->step(5)
                         ->default(10)
+                        ->required()
                         ->placeholder('Minutos')
                         ->columnSpan([
                             'default' => 6,
@@ -80,11 +82,12 @@ class CreateQuiz extends CreateRecord
                         ]),
 
                     TextInput::make('experience_amount')
+                        ->label('Experiência Concedida')
                         ->numeric()
                         ->minValue(0)
                         ->step(10)
                         ->default(10)
-                        ->placeholder('Experience')
+                        ->placeholder('Experiência Concedida ao Finalizar')
                         ->columnSpan([
                             'default' => 6,
                             'md' => 6,

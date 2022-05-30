@@ -21,6 +21,8 @@ class ObjectiveQuestionsRelationManager extends BelongsToManyRelationManager
 
     protected static ?string $label = "Questão Objetiva";
 
+    protected static ?string $title = "Questões Objetivas";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -29,26 +31,26 @@ class ObjectiveQuestionsRelationManager extends BelongsToManyRelationManager
                     ->label('Questão')
                     ->rules(['max:255', 'string'])
                     ->required()
-                    ->placeholder('Questão Objetiva')
+                    ->placeholder('Texto da Questão Objetiva')
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
 
-
                 HasManyRepeater::make('objectiveQuestionOptions')
                     ->relationship('objectiveQuestionOptions')
+                    ->label('Alternativas')
                     ->schema([
                         TextInput::make('body')
                             ->label('Alternativa')
-                            ->placeholder('Alternativa')
+                            ->placeholder('Texto da Alternativa')
                             ->columnSpan([
                                 'md' => 12,
                             ])
                             ->required(),
                         Toggle::make('is_correct')
-                            ->label('Alternativa Correta')
+                            ->label('Correta')
                             ->columnSpan([
                                 'md' => 12,
                             ]),
@@ -64,6 +66,7 @@ class ObjectiveQuestionsRelationManager extends BelongsToManyRelationManager
                     ->required(),
 
                 RichEditor::make('answer_explanation')
+                    ->label('Explicação da Resposta')
                     ->rules(['nullable', 'max:255', 'string'])
                     ->placeholder('Answer Explanation')
                     ->columnSpan([
@@ -79,11 +82,11 @@ class ObjectiveQuestionsRelationManager extends BelongsToManyRelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('body')->limit(50),
-                Tables\Columns\TextColumn::make('answer_explanation')->limit(
-                    50
-                ),
-                Tables\Columns\BooleanColumn::make('multi_option'),
+                Tables\Columns\TextColumn::make('body')->label('Questão')->limit(50),
+                Tables\Columns\TextColumn::make('answer_explanation')->label('Explicação da Resposta')
+                    ->limit(50)
+                    ->html(),
+                Tables\Columns\BooleanColumn::make('multi_option')->label('Milti Resposta'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')

@@ -24,9 +24,9 @@ class LearningArtifactFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'type' => 'audio',
-            'size' => $this->faker->randomFloat(2, 0, 9999),
-            'path' => $this->faker->text(255),
+            // 'type' => 'audio',
+            // 'size' => $this->faker->randomFloat(2, 0, 9999),
+            // 'path' => $this->faker->text(255),
             'description' => $this->faker->sentence(15),
             'external' => $this->faker->boolean,
             'url' => $this->faker->url,
