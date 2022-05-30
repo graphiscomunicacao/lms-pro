@@ -50,8 +50,8 @@ class CategoryResource extends Resource
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:2048'])
                     ->image()
-                    ->placeholder('Imagem')
-                    ->label('Imagem')
+                    ->placeholder('Capa')
+                    ->label('Capa')
                     ->required()
                     ->columnSpan([
                         'default' => 12,
@@ -88,7 +88,7 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_path')
                     ->rounded()
-                    ->label('Imagem'),
+                    ->label('Capa'),
                 Tables\Columns\TextColumn::make('name')
                     ->limit(50)
                     ->label('Nome')
