@@ -30,6 +30,7 @@ class RoleResource extends Resource
                         ->rules(['required', 'max:255', 'string'])
                         ->placeholder('Nome')
                         ->label('Nome')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,

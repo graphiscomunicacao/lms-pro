@@ -34,6 +34,7 @@ class SupportLinkResource extends Resource
                         ->rules(['required', 'max:255', 'string'])
                         ->placeholder('Nome')
                         ->label('Nome')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
@@ -45,6 +46,7 @@ class SupportLinkResource extends Resource
                         ->url()
                         ->placeholder('Endereço')
                         ->label('Endereço')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
@@ -54,6 +56,7 @@ class SupportLinkResource extends Resource
                     Toggle::make('same_tab')
                         ->rules(['required', 'boolean'])
                         ->label('Mesma Aba')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
@@ -65,6 +68,7 @@ class SupportLinkResource extends Resource
                         ->image()
                         ->placeholder('Capa')
                         ->label('Capa')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
