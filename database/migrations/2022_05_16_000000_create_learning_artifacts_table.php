@@ -12,13 +12,24 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('support_links', function (Blueprint $table) {
+        Schema::create('learning_artifacts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('url');
-            $table->boolean('same_tab');
+            $table->enum('type', [
+                'audio',
+                'document',
+                'interactive',
+                'image',
+                'video',
+                'externo',
+            ]);
+            $table->decimal('size');
+            $table->string('path');
+            $table->text('description')->nullable();
+            $table->boolean('external');
+            $table->string('url')->nullable();
             $table->string('cover_path')->nullable();
-
+            $table->integer('experience_amount');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +42,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('support_links');
+        Schema::dropIfExists('learning_artifacts');
     }
 };

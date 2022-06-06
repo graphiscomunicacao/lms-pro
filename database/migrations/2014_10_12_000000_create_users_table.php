@@ -23,12 +23,16 @@ return new class extends Migration {
             $table->text('two_factor_secret')->nullable();
             $table->text('two_factor_recovery_codes')->nullable();
             $table->timestamp('two_factor_confirmed_at')->nullable();
-            $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
-            $table->unsignedBigInteger('role_id');
-            $table->unsignedBigInteger('job_id');
-            $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('manager_id')->nullable();
+            $table->foreignId('role_id')->constrained();
+            $table->foreignId('job_id')->constrained();
+            $table->foreignId('group_id')->nullable()->constrained();
+            $table->foreignId('manager_id')
+                ->nullable()
+                ->references('id')
+                ->on('users')
+                ->constrained();
+            $table->foreignId('current_team_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

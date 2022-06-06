@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('experience_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->integer('experience_amount');
             $table->boolean('is_double');
             $table->enum('type', [
@@ -24,7 +24,6 @@ return new class extends Migration {
                 'LearningPathGroup',
             ]);
             $table->integer('item_id');
-
             $table->timestamps();
         });
     }

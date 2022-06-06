@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('learning_artifact_learning_path', function (
             Blueprint $table
         ) {
-            $table->unsignedBigInteger('learning_artifact_id');
-            $table->unsignedBigInteger('learning_path_id');
+            $table->foreignId('learning_artifact_id')->constrained();
+            $table->foreignId('learning_path_id')->constrained();
         });
     }
 

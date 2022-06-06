@@ -12,12 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('objective_questions', function (Blueprint $table) {
+        Schema::create('support_links', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('body');
-            $table->text('answer_explanation')->nullable();
-            $table->boolean('multi_option')->nullable();
-
+            $table->string('name');
+            $table->string('url');
+            $table->boolean('same_tab');
+            $table->string('cover_path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('objective_questions');
+        Schema::dropIfExists('support_links');
     }
 };

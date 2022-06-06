@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('job_menu', function (Blueprint $table) {
-            $table->unsignedBigInteger('job_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('job_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
         });
     }
 
