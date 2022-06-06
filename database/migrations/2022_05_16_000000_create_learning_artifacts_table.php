@@ -30,7 +30,6 @@ return new class extends Migration {
             $table->string('url')->nullable();
             $table->string('cover_path')->nullable();
             $table->integer('experience_amount');
-
             $table->timestamps();
             $table->softDeletes();
         });

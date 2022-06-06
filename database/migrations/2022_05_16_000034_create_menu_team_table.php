@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('menu_team', function (Blueprint $table) {
-            $table->unsignedBigInteger('team_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('team_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
         });
     }
 

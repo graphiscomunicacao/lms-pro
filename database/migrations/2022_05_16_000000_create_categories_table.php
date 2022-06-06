@@ -12,13 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('cover_path');
-
+            $table->string('slug');
+            $table->string('cover_path')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('categories');
     }
 };

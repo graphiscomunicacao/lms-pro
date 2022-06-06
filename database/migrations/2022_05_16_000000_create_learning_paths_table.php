@@ -23,9 +23,8 @@ return new class extends Migration {
             $table->integer('tries');
             $table->integer('passing_score');
             $table->integer('approval_goal')->nullable();
-            $table->unsignedBigInteger('certificate_id');
+            $table->foreignId('certificate_id')->nullable()->constrained();
             $table->integer('experience_amount');
-
             $table->timestamps();
         });
     }

@@ -12,16 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('objective_question_options', function (
-            Blueprint $table
-        ) {
+        Schema::create('certificates', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('body');
-            $table->boolean('is_correct');
-            $table->unsignedBigInteger('objective_question_id');
-
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('background_path');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('objective_question_options');
+        Schema::dropIfExists('certificates');
     }
 };

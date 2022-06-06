@@ -13,10 +13,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('menu_support_link', function (Blueprint $table) {
-            $table->unsignedBigInteger('support_link_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('support_link_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
             $table->integer('order');
-
             $table->timestamps();
         });
     }

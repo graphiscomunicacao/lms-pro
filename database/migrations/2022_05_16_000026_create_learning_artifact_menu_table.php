@@ -13,10 +13,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('learning_artifact_menu', function (Blueprint $table) {
-            $table->unsignedBigInteger('learning_artifact_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('learning_artifact_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
             $table->integer('order');
-
             $table->timestamps();
         });
     }

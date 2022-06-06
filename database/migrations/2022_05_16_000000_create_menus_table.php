@@ -12,12 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('certificates', function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('background_path');
-
+            $table->string('cover_path');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('certificates');
+        Schema::dropIfExists('menus');
     }
 };

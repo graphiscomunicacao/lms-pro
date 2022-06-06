@@ -12,11 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('learning_path_learning_path_group', function (
-            Blueprint $table
-        ) {
-            $table->unsignedBigInteger('learning_path_id');
-            $table->unsignedBigInteger('learning_path_group_id');
+        Schema::create('learning_path_learning_path_group', function (Blueprint $table) {
+            $table->foreignId('learning_path_id')->constrained();
+            $table->foreignId('learning_path_group_id')->constrained();
             $table->integer('order');
         });
     }
