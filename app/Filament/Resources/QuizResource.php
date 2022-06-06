@@ -60,8 +60,9 @@ class QuizResource extends Resource
                                     ->label('Capa')
                                     ->rules(['image', 'max:1024'])
                                     ->image()
+                                    ->directory('/img/covers/')
                                     ->required()
-                                    ->placeholder('Cover Path')
+                                    ->placeholder('Selecione uma imagem')
                                     ->columnSpan([
                                         'default' => 12,
                                         'md' => 12,

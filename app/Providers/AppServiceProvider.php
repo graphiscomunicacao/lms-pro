@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\LearningArtifact;
 use App\Observers\LearningArtifactObserver;
+use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         LearningArtifact::observe(LearningArtifactObserver::class);
+
+        Filament::serving(function () {
+            Filament::registerTheme(mix('css/app.css'));
+        });
     }
 }
