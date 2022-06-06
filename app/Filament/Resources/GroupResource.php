@@ -69,6 +69,7 @@ class GroupResource extends Resource
                 ->searchable()
                 ->sortable()
             ])
+            ->defaultSort('name')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
