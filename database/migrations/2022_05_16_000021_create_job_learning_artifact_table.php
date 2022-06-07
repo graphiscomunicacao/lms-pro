@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('job_learning_artifact', function (Blueprint $table) {
-            $table->unsignedBigInteger('job_id');
-            $table->unsignedBigInteger('learning_artifact_id');
+            $table->foreignId('job_id')->constrained();
+            $table->foreignId('learning_artifact_id')->constrained();
         });
     }
 

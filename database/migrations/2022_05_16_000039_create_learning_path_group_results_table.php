@@ -12,15 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('learning_path_group_results', function (
-            Blueprint $table
-        ) {
+        Schema::create('learning_path_group_results', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->dateTime('submited_at');
             $table->integer('score');
-            $table->unsignedBigInteger('learning_path_group_id');
-
+            $table->foreignId('learning_path_group_id')->constrained();
             $table->timestamps();
         });
     }

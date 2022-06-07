@@ -13,10 +13,9 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('menu_quiz', function (Blueprint $table) {
-            $table->unsignedBigInteger('quiz_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('quiz_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
             $table->integer('order');
-
             $table->timestamps();
         });
     }

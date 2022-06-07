@@ -12,11 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('category_objective_question', function (
-            Blueprint $table
-        ) {
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('objective_question_id');
+        Schema::create('category_objective_question', function (Blueprint $table) {
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('objective_question_id')->constrained();
         });
     }
 

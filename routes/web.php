@@ -26,32 +26,34 @@ use App\Http\Controllers\LearningArtifactController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/admin/')->name('login');
 
-Route::middleware(['auth:sanctum', 'verified'])
-    ->get('/dashboard', function () {
-        return view('dashboard');
-    })
-    ->name('dashboard');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
-Route::prefix('/')
-    ->middleware(['auth:sanctum', 'verified'])
-    ->group(function () {
-        Route::resource('categories', CategoryController::class);
-        Route::resource('groups', GroupController::class);
-        Route::resource('jobs', JobController::class);
-        Route::resource('roles', RoleController::class);
-        Route::resource('support-links', SupportLinkController::class);
-        Route::resource('teams', TeamController::class);
-        Route::resource('certificates', CertificateController::class);
-        Route::resource(
-            'learning-artifacts',
-            LearningArtifactController::class
-        );
-        Route::resource('menus', MenuController::class);
-        Route::resource('learning-paths', LearningPathController::class);
-        Route::resource('quizzes', QuizController::class);
-        Route::resource('users', UserController::class);
-    });
+//Route::middleware(['auth:sanctum', 'verified'])
+//    ->get('/dashboard', function () {
+//        return view('dashboard');
+//    })
+//    ->name('dashboard');
+//
+//Route::prefix('/')
+//    ->middleware(['auth:sanctum', 'verified'])
+//    ->group(function () {
+//        Route::resource('categories', CategoryController::class);
+//        Route::resource('groups', GroupController::class);
+//        Route::resource('jobs', JobController::class);
+//        Route::resource('roles', RoleController::class);
+//        Route::resource('support-links', SupportLinkController::class);
+//        Route::resource('teams', TeamController::class);
+//        Route::resource('certificates', CertificateController::class);
+//        Route::resource(
+//            'learning-artifacts',
+//            LearningArtifactController::class
+//        );
+//        Route::resource('menus', MenuController::class);
+//        Route::resource('learning-paths', LearningPathController::class);
+//        Route::resource('quizzes', QuizController::class);
+//        Route::resource('users', UserController::class);
+//    });

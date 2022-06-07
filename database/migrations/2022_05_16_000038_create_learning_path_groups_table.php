@@ -23,7 +23,6 @@ return new class extends Migration {
             $table->integer('tries');
             $table->integer('approval_goal');
             $table->integer('passing_score');
-
             $table->timestamps();
             $table->softDeletes();
         });

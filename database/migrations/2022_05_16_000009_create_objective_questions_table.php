@@ -12,13 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('experience_details', function (Blueprint $table) {
-            $table
-                ->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('CASCADE')
-                ->onDelete('CASCADE');
+        Schema::create('objective_questions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->text('body');
+            $table->text('answer_explanation')->nullable();
+            $table->boolean('multi_option')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,8 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::table('experience_details', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-        });
+        Schema::dropIfExists('objective_questions');
     }
 };

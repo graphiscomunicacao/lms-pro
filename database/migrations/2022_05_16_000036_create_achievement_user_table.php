@@ -13,8 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('achievement_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('achievement_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('achievement_id')->constrained();
         });
     }
 
