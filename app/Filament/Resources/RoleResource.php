@@ -19,7 +19,9 @@ class RoleResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $label = 'Cargo';
+    protected static ?string $label = 'Perfil';
+
+    protected static ?string $pluralLabel = 'Perfis';
 
     public static function form(Form $form): Form
     {

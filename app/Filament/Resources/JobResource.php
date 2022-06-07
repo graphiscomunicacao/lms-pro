@@ -19,7 +19,7 @@ class JobResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $label = 'Equipe';
+    protected static ?string $label = 'Cargo';
 
     public static function form(Form $form): Form
     {
