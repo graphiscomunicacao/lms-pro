@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Scopes\Searchable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -53,7 +55,9 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($user) {
-            $user->password = "1234";
+            if ($user->email != 'admin@admin.com') {
+                $user->password = Hash::make('1234');
+            }
         });
     }
 
