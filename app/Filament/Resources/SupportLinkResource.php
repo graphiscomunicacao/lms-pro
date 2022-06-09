@@ -104,7 +104,8 @@ class SupportLinkResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_path')
                     ->label('Capa')
-                    ->rounded(),
+                    ->rounded()
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
                     ->searchable()

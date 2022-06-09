@@ -3,7 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Models\Team;
-use Filament\{Forms\Components\Card, Tables, Forms};
+use Filament\{Forms\Components\BelongsToManyMultiSelect,
+    Forms\Components\Card,
+    Tables,
+    Forms,
+    Tables\Filters\MultiSelectFilter};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,7 +37,18 @@ class TeamResource extends Resource
                             'default' => 12,
                             'md' => 12,
                             'lg' => 12,
-                        ])
+                        ]),
+
+//                    BelongsToManyMultiSelect::make('users')
+//                        ->placeholder('Usuários')
+//                        ->label('Atribuir Usuários')
+//                        ->relationship('users', 'name')
+//                        ->columnSpan([
+//                            'default' => 12,
+//                            'md' => 12,
+//                            'lg' => 12,
+//                        ]),
+
                 ])
                 ->columns([
                     'sm' => 2,
@@ -104,7 +119,9 @@ class TeamResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            TeamResource\RelationManagers\UsersRelationManager::class
+        ];
     }
 
     public static function getPages(): array

@@ -138,7 +138,10 @@ class QuizResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('cover_path')->rounded()->label('Capa'),
+                Tables\Columns\ImageColumn::make('cover_path')
+                    ->rounded()
+                    ->label('Capa')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')->limit(50)->label('Nome'),
                 Tables\Columns\TextColumn::make('time_limit')
                     ->label('Tempo de Realização')
