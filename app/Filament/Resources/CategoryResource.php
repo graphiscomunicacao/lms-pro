@@ -88,7 +88,8 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_path')
                     ->rounded()
-                    ->label('Capa'),
+                    ->label('Capa')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')
                     ->limit(50)
                     ->label('Nome')
