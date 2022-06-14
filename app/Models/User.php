@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Scopes\Searchable;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -31,6 +33,7 @@ class User extends Authenticatable
         'job_id',
         'group_id',
         'manager_id',
+        'profile_photo_path'
     ];
 
     protected $searchableFields = ['*'];
@@ -46,6 +49,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'two_factor_confirmed_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if ($user->email != 'admin@admin.com') {
+                $user->password = Hash::make('1234');
+            }
+        });
+    }
 
     public function role()
     {

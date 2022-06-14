@@ -27,11 +27,12 @@ class UserFactory extends Factory
             'email' => $this->faker->unique->email,
             'total_experience' => $this->faker->randomNumber(0),
             'email_verified_at' => now(),
-            'password' => \Hash::make('password'),
+//            'password' => \Hash::make('password'),
             'remember_token' => Str::random(10),
             'role_id' => \App\Models\Role::factory(),
             'job_id' => \App\Models\Job::factory(),
             'group_id' => \App\Models\Group::factory(),
+            'profile_photo_path' => asset('img/covers/user.svg'),
             'manager_id' => function () {
                 return \App\Models\User::factory()->create([
                     'manager_id' => null,
