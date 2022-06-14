@@ -53,4 +53,9 @@ class LearningPathGroup extends Model
     {
         return $this->belongsToMany(Job::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

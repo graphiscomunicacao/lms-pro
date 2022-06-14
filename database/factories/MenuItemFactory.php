@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Menu;
+use App\Models\MenuItem;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MenuFactory extends Factory
+class MenuItemFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Menu::class;
+    protected $model = MenuItem::class;
 
     /**
      * Define the model's default state.
@@ -23,9 +23,10 @@ class MenuFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'description' => $this->faker->sentence(15),
-            'cover_path' => asset('img/covers/menu.svg'),
+            'item_type' => $this->faker->text(255),
+            'item_id' => $this->faker->randomNumber(0),
+            'order' => $this->faker->randomNumber(0),
+            'menu_id' => \App\Models\Menu::factory(),
         ];
     }
 }
