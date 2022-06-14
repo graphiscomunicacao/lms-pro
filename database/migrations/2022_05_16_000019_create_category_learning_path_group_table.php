@@ -12,12 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('cover_path')->default(asset('img/covers/menu.svg'));
-            $table->timestamps();
+        Schema::create('category_learning_path_group', function (Blueprint $table) {
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('learning_path_group_id')->constrained();
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('category_learning_path');
     }
 };

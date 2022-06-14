@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('slug');
             $table->text('description')->nullable();
             $table->integer('time_limit');
-            $table->string('cover_path');
+            $table->string('cover_path')->default(asset('img/covers/questionary.svg'));
             $table->integer('experience_amount');
             $table->timestamps();
             $table->softDeletes();

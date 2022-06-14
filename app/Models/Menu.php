@@ -39,4 +39,9 @@ class Menu extends Model
     {
         return $this->belongsToMany(SupportLink::class);
     }
+
+    public function menuItems()
+    {
+        return $this->hasMany(MenuItem::class);
+    }
 }
