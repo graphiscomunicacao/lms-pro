@@ -33,6 +33,17 @@ class LearningArtifact extends Model
         'external' => 'boolean',
     ];
 
+    public static function formatSize($size)
+    {
+        if ($size == 0) {
+            return "-";
+        } else {
+            $units = [' Bs', ' kBs', ' MBs', ' GBs'];
+            for ($i = 0; $size > 1024; $i++) $size /= 1024;
+            return round($size , 2) . $units[$i];
+        }
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

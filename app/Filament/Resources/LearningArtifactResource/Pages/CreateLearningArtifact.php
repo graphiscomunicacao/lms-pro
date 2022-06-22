@@ -26,8 +26,9 @@ class CreateLearningArtifact extends CreateRecord
                 ->schema([
                     TextInput::make('name')
                         ->rules(['required', 'max:255', 'string'])
-                        ->placeholder('Name')
+                        ->placeholder('Nome')
                         ->label('Nome')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
@@ -37,6 +38,8 @@ class CreateLearningArtifact extends CreateRecord
                     BelongsToManyMultiSelect::make('categories')
                         ->label('Categorias')
                         ->relationship('categories', 'name')
+                        ->placeholder('Categorias')
+                        ->required()
                         ->columnSpan([
                                     'default' => 6,
                                     'md' => 6,
@@ -45,10 +48,10 @@ class CreateLearningArtifact extends CreateRecord
 
                     TextInput::make('experience_amount')
                         ->rules(['required'])
-                        ->label('Experiência concedida')
+                        ->label('Experiência Concedida')
                         ->numeric()
                         ->minValue(0)
-                        ->step(10)
+                        ->required()
                         ->placeholder('Pontos')
                         ->columnSpan([
                             'default' => 6,
@@ -74,6 +77,7 @@ class CreateLearningArtifact extends CreateRecord
                     FileUpload::make('path')
                         ->rules(['file', 'max:131072'])
                         ->label('Selecione o arquivo')
+                        ->required()
                         ->placeholder('Arquivo')
                         ->visible(fn (Closure $get) => $get('external') === false)
                         ->columnSpan([
@@ -99,9 +103,11 @@ class CreateLearningArtifact extends CreateRecord
                 ->icon('heroicon-o-photograph')
                 ->schema([
                     FileUpload::make('cover_path')
+                        ->label('Capa')
+                        ->placeholder('Capa')
                         ->rules(['required','image', 'max:1024'])
                         ->image()
-                        ->placeholder('Cover Path')
+                        ->required()
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,
