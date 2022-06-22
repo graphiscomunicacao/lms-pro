@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\LearningPathGroupResource\RelationManagers;
 
-use App\Models\LearningPath;
-use Filament\{Tables, Forms};
-use Filament\Resources\{Form, Table, Resource};
+use Filament\Forms;
+use Filament\Tables;
+use Filament\Resources\{Form, Table};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,13 +14,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\BelongsToSelect;
 use Filament\Tables\Filters\MultiSelectFilter;
-use App\Filament\Resources\LearningPathResource\Pages;
+use Filament\Resources\RelationManagers\BelongsToManyRelationManager;
 
-class LearningPathResource extends Resource
+class LearningPathsRelationManager extends BelongsToManyRelationManager
 {
-    protected static ?string $model = LearningPath::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static string $relationship = 'learningPaths';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -49,7 +47,6 @@ class LearningPathResource extends Resource
                 DateTimePicker::make('start_time')
                     ->rules(['nullable', 'date'])
                     ->placeholder('Start Time')
-                    ->withoutSeconds()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
@@ -59,7 +56,6 @@ class LearningPathResource extends Resource
                 DateTimePicker::make('end_time')
                     ->rules(['nullable', 'date'])
                     ->placeholder('End Time')
-                    ->withoutSeconds()
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
@@ -182,19 +178,5 @@ class LearningPathResource extends Resource
                     'name'
                 ),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListLearningPaths::route('/'),
-            'create' => Pages\CreateLearningPath::route('/create'),
-            'edit' => Pages\EditLearningPath::route('/{record}/edit'),
-        ];
     }
 }

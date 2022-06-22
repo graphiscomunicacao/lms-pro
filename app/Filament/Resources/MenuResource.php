@@ -89,18 +89,13 @@ class MenuResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('cover_path')
                     ->label('Capa')
-                    ->rounded(),
+                    ->rounded()
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
                     ->searchable()
                     ->sortable()
                     ->limit(50),
-//                Tables\Columns\TextColumn::make('description')
-//                    ->label('Descrição')
-//                    ->searchable()
-//                    ->sortable()
-//                    ->default('-')
-//                    ->limit(50),
             ])
             ->defaultSort('name')
             ->filters([
@@ -139,7 +134,9 @@ class MenuResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            MenuResource\RelationManagers\MenuItemsRelationManager::class
+        ];
     }
 
     public static function getPages(): array

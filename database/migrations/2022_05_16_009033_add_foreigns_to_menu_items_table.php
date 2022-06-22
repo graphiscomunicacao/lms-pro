@@ -12,12 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('cover_path')->default(asset('img/covers/menu.svg'));
-            $table->timestamps();
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table
+                ->foreign('menu_id')
+                ->references('id')
+                ->on('menus')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
         });
     }
 
@@ -28,6 +29,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::table('menu_items', function (Blueprint $table) {
+            $table->dropForeign(['menu_id']);
+        });
     }
 };
