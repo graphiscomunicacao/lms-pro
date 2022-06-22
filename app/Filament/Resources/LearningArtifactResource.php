@@ -5,8 +5,6 @@ namespace App\Filament\Resources;
 use App\Models\LearningArtifact;
 use Filament\{Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
@@ -24,6 +22,10 @@ class LearningArtifactResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $label = 'Material de Ensino';
+
+    protected static ?string $pluralLabel = 'Materiais de Ensino';
 
     public $data;
 
@@ -54,7 +56,7 @@ class LearningArtifactResource extends Resource
 
                         TextInput::make('experience_amount')
                                     ->rules(['required'])
-                                    ->label('Experiência concedida')
+                                    ->label('Experiência Concedida')
                                     ->numeric()
                                     ->minValue(0)
                                     ->step(10)
@@ -113,6 +115,7 @@ class LearningArtifactResource extends Resource
                             ->rules(['required','image', 'max:1024'])
                             ->image()
                             ->placeholder('Cover Path')
+                            ->label('Capa')
                             ->columnSpan([
                                 'default' => 12,
                                 'md' => 12,
@@ -129,10 +132,10 @@ class LearningArtifactResource extends Resource
                 Card::make()
                     ->schema([
                         Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
+                            ->label('Criado')
                             ->content(fn(?LearningArtifact $record): string => $record ? $record->created_at->diffForHumans() : '-'),
                         Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
+                            ->label('Modificado')
                             ->content(fn(?LearningArtifact $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                     ])
                     ->columnSpan(1),
@@ -148,27 +151,41 @@ class LearningArtifactResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('cover_path')->rounded()->label('Capa'),
-                Tables\Columns\TextColumn::make('name')->limit(10)->label('Nome')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('type')->enum([
-                    'audio' => 'Audio',
-                    'document' => 'Document',
-                    'interactive' => 'Interactive',
-                    'image' => 'Image',
-                    'video' => 'Video',
+                Tables\Columns\ImageColumn::make('cover_path')
+                    ->rounded()
+                    ->label('Capa')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
+                Tables\Columns\TextColumn::make('name')
+                    ->limit(10)
+                    ->label('Nome')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->enum([
+                    'audio' => 'Áudio',
+                    'document' => 'Documento',
+                    'interactive' => 'Interativo',
+                    'image' => 'Imagem',
+                    'video' => 'Vídeo',
                     'externo' => 'Externo',
-                ])->label('Tipo'),
-                Tables\Columns\TextColumn::make('size')->label('Tamanho'),
+                    ])
+                    ->label('Tipo')
+                    ->sortable(),
                 Tables\Columns\BooleanColumn::make('external')->label('Externo'),
-                Tables\Columns\TextColumn::make('url')->limit(20),
+                Tables\Columns\TextColumn::make('url')
+                    ->limit(20)
+                    ->label('Endereço'),
+                Tables\Columns\TextColumn::make('size')
+                    ->label('Tamanho')
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($state): string => LearningArtifact::formatSize($state)),
             ])
             ->defaultSort('id','desc')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
+                        Forms\Components\DatePicker::make('created_from')->label('Criado a partir de'),
+                        Forms\Components\DatePicker::make('created_until')->label('Criado até'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -195,6 +212,16 @@ class LearningArtifactResource extends Resource
                                 )
                             );
                     }),
+                Tables\Filters\SelectFilter::make('type')
+                    ->options([
+                        'audio' => 'Áudio',
+                        'document' => 'Documento',
+                        'interactive' => 'Interativo',
+                        'image' => 'Imagem',
+                        'video' => 'Vídeo',
+                        'externo' => 'Externo',
+                    ])
+                    ->label('Tipo')
             ]);
     }
 

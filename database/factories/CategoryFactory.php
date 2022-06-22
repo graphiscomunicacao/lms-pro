@@ -25,7 +25,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->word,
             'slug' => $this->faker->slug,
-            'cover_path' => $this->faker->text(255),
+            'cover_path' => asset('img/covers/category.svg'),
         ];
     }
 }

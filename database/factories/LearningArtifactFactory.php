@@ -30,7 +30,7 @@ class LearningArtifactFactory extends Factory
             'description' => $this->faker->sentence(15),
             'external' => $this->faker->boolean,
             'url' => $this->faker->url,
-            'cover_path' => $this->faker->text(255),
+            'cover_path' => asset('img/covers/learning-artifact.svg'),
             'experience_amount' => $this->faker->randomNumber(0),
         ];
     }
