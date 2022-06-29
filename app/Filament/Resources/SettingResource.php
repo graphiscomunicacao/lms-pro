@@ -1,55 +1,44 @@
 <?php
 
-namespace App\Filament\Resources\MenuResource\RelationManagers;
+namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
-use Filament\Resources\{Form, Table};
+use App\Models\Setting;
+use Filament\{Tables, Forms};
+use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\BelongsToSelect;
-use Filament\Tables\Filters\MultiSelectFilter;
-use Filament\Resources\RelationManagers\HasManyRelationManager;
+use App\Filament\Resources\SettingResource\Pages;
 
-class MenuItemsRelationManager extends HasManyRelationManager
+class SettingResource extends Resource
 {
-    protected static string $relationship = 'menuItems';
+    protected static ?string $model = Setting::class;
 
-    protected static ?string $recordTitleAttribute = 'item_type';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
+
+    protected static ?string $recordTitleAttribute = 'key';
 
     public static function form(Form $form): Form
     {
         return $form->schema([
             Grid::make(['default' => 0])->schema([
-                Select::make('item_type')
-                    ->label('Tipo de Item')
+                TextInput::make('key')
                     ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Selecione')
-                    ->options([
-                        'App\Models\SupportLink' => 'Link de Apoio',
-                        'App\Models\LearningArtifact' => 'Material de Ensino',
-                        'App\Models\Quiz' => 'Quiz',
-                        'App\Models\LearningPath' => 'Trilha de Ensino',
-                        'App\Models\LearningPathGroup' => 'Grupo de Trilhas de Ensino',
-                    ])
+                    ->placeholder('Key')
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
 
-                TextInput::make('item_id')
-                    ->rules(['required', 'numeric'])
-                    ->numeric()
-                    ->placeholder('Item Id')
+                TextInput::make('value')
+                    ->rules(['required', 'max:255', 'string'])
+                    ->placeholder('Value')
                     ->columnSpan([
                         'default' => 12,
                         'md' => 12,
                         'lg' => 12,
                     ]),
-
             ]),
         ]);
     }
@@ -58,10 +47,8 @@ class MenuItemsRelationManager extends HasManyRelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('menu.name')->limit(50),
-                Tables\Columns\TextColumn::make('item_type')->limit(50),
-                Tables\Columns\TextColumn::make('item_id'),
-                Tables\Columns\TextColumn::make('order'),
+                Tables\Columns\TextColumn::make('key')->limit(50),
+                Tables\Columns\TextColumn::make('value')->limit(50),
             ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')
@@ -94,11 +81,20 @@ class MenuItemsRelationManager extends HasManyRelationManager
                                 )
                             );
                     }),
-
-                MultiSelectFilter::make('menu_id')->relationship(
-                    'menu',
-                    'name'
-                ),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListSettings::route('/'),
+            'create' => Pages\CreateSetting::route('/create'),
+            'edit' => Pages\EditSetting::route('/{record}/edit'),
+        ];
     }
 }
