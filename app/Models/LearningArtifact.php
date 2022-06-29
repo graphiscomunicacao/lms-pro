@@ -33,6 +33,25 @@ class LearningArtifact extends Model
         'external' => 'boolean',
     ];
 
+    public static function formatSize($size)
+    {
+        if ($size == 0) {
+            return "-";
+        } else {
+            $units = [' Bs', ' kBs', ' MBs', ' GBs'];
+            for ($i = 0; $size > 1024; $i++) $size /= 1024;
+            return round($size , 2) . $units[$i];
+        }
+    }
+
+    public static function calculatePercentage($number, $total)
+    {
+        $count1 = $number / $total;
+        $count2 = $count1 * 100;
+        $count = number_format($count2, 0);
+        return $count;
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

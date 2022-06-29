@@ -26,7 +26,7 @@ class SupportLinkFactory extends Factory
             'name' => $this->faker->name,
             'url' => $this->faker->url,
             'same_tab' => $this->faker->boolean,
-            'cover_path' => $this->faker->text(255),
+            'cover_path' => asset('img/covers/support-link.svg'),
         ];
     }
 }

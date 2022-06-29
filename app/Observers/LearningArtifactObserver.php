@@ -36,11 +36,13 @@ class LearningArtifactObserver
      * record
      */
     private function settingFileInfos($model) {
+//        dd(Storage::mimeType('public/' . $model->path));
+
         $mimeType = (empty($model->path)) ? 'externo' : Storage::mimeType('public/' . $model->path);
 
         $fileType = match (Str::before($mimeType, '/')) {
             'image' => 'image',
-            'application' => ($mimeType == 'application/zip') ? 'interactive' : 'document',
+            'text', 'application' => ($mimeType == 'application/zip') ? 'interactive' : 'document',
             'video' => 'video',
             'audio' => 'audio',
             default => 'externo'
