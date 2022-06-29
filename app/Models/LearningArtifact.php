@@ -44,6 +44,14 @@ class LearningArtifact extends Model
         }
     }
 
+    public static function calculatePercentage($number, $total)
+    {
+        $count1 = $number / $total;
+        $count2 = $count1 * 100;
+        $count = number_format($count2, 0);
+        return $count;
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);
