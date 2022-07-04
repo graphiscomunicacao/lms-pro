@@ -24,6 +24,8 @@ class LearningPathResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -134,16 +136,36 @@ class LearningPathResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->limit(50),
-                Tables\Columns\TextColumn::make('description')->limit(50),
-                Tables\Columns\TextColumn::make('start_time')->dateTime(),
-                Tables\Columns\TextColumn::make('end_time')->dateTime(),
-                Tables\Columns\TextColumn::make('availability_time'),
-                Tables\Columns\ImageColumn::make('cover_path')->rounded(),
-                Tables\Columns\TextColumn::make('tries'),
-                Tables\Columns\TextColumn::make('passing_score'),
-                Tables\Columns\TextColumn::make('approval_goal'),
-                Tables\Columns\TextColumn::make('certificate.name')->limit(50),
+                Tables\Columns\ImageColumn::make('cover_path')->rounded()
+                    ->label('Capa')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
+                Tables\Columns\TextColumn::make('name')->limit(50)
+                    ->label('Nome')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('availability_time')
+                    ->label('Disponível por (dias)')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('tries')
+                    ->label('Máximo de tentativas')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('passing_score')
+                    ->label('Nota mínima exigida')
+                    ->toggleable(isToggledHiddenByDefault: false),
+                Tables\Columns\TextColumn::make('approval_goal')
+                    ->label('Taxa de aprovação esperada')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('start_time')
+                    ->label('Data Início')
+                    ->dateTime()
+                    ->date('d/m/y h:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('end_time')
+                    ->label('Data Fim')
+                    ->dateTime()
+                    ->date('d/m/y h:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')
@@ -157,7 +179,7 @@ class LearningPathResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -168,7 +190,7 @@ class LearningPathResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',

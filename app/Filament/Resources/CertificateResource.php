@@ -22,6 +22,8 @@ class CertificateResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -95,11 +97,14 @@ class CertificateResource extends Resource
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->limit(50)
-                    ->label('Descrição')
-                    ->searchable()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([

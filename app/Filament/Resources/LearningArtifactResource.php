@@ -27,6 +27,8 @@ class LearningArtifactResource extends Resource
 
     protected static ?string $pluralLabel = 'Materiais de Ensino';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public $data;
 
     public static function form(Form $form): Form

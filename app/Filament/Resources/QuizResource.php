@@ -27,6 +27,8 @@ class QuizResource extends Resource
 
     protected static ?string $label = "Quiz";
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -143,9 +145,16 @@ class QuizResource extends Resource
                     ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')->limit(50)->label('Nome'),
                 Tables\Columns\TextColumn::make('time_limit')
-                    ->alignCenter()
-                    ->label('Tempo de Realização')
+                    ->label('Tempo para realização')
                     ->formatStateUsing(fn (string $state): string => date('H:i', mktime(0,$state)) ),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')

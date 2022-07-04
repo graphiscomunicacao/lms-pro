@@ -25,6 +25,8 @@ class SupportLinkResource extends Resource
 
     protected static ?string $pluralLabel = 'Links de Suporte';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -167,5 +169,10 @@ class SupportLinkResource extends Resource
             'create' => Pages\CreateSupportLink::route('/create'),
             'edit' => Pages\EditSupportLink::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
     }
 }

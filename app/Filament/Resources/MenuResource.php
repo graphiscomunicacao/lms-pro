@@ -23,6 +23,8 @@ class MenuResource extends Resource
 
     protected static ?string $label = 'Menu';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -96,6 +98,14 @@ class MenuResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->limit(50),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([
@@ -110,7 +120,7 @@ class MenuResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -121,7 +131,7 @@ class MenuResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',
@@ -147,4 +157,10 @@ class MenuResource extends Resource
             'edit' => Pages\EditMenu::route('/{record}/edit'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
+    }
+
 }

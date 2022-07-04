@@ -21,6 +21,8 @@ class GroupResource extends Resource
 
     protected static ?string $label = 'Grupo';
 
+    protected static ?string $navigationGroup = "Gerenciar usuários";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -63,11 +65,20 @@ class GroupResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('name')
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
                 ->limit(50)
                 ->label('Nome')
                 ->searchable()
-                ->sortable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([
