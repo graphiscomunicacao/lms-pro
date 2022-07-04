@@ -21,6 +21,8 @@ class JobResource extends Resource
 
     protected static ?string $label = 'Cargo';
 
+    protected static ?string $navigationGroup = "Gerenciar usuários";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -61,11 +63,21 @@ class JobResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('name')
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
                 ->label('Nome')
                 ->searchable()
                 ->sortable()
-                ->limit(50)])
+                ->limit(50),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+            ])
             ->defaultSort('name')
             ->filters([
                 Tables\Filters\Filter::make('created_at')

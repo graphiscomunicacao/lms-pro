@@ -18,6 +18,8 @@ class SettingResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'key';
 
+    protected static ?string $navigationGroup = "root";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -97,4 +99,5 @@ class SettingResource extends Resource
             'edit' => Pages\EditSetting::route('/{record}/edit'),
         ];
     }
+
 }

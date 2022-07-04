@@ -25,6 +25,8 @@ class LearningPathGroupResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([

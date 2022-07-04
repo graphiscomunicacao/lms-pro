@@ -23,6 +23,8 @@ class TeamResource extends Resource
 
     protected static ?string $label = 'Equipe';
 
+    protected static ?string $navigationGroup = "Gerenciar usuários";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -131,5 +133,10 @@ class TeamResource extends Resource
             'create' => Pages\CreateTeam::route('/create'),
             'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
     }
 }

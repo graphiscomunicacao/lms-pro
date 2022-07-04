@@ -23,6 +23,8 @@ class RoleResource extends Resource
 
     protected static ?string $pluralLabel = 'Perfis';
 
+    protected static ?string $navigationGroup = "Gerenciar usuários";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -117,5 +119,10 @@ class RoleResource extends Resource
             'create' => Pages\CreateRole::route('/create'),
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
     }
 }

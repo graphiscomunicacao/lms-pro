@@ -23,6 +23,8 @@ class CategoryResource extends Resource
 
     protected static ?string $label = 'Categoria';
 
+    protected static ?string $navigationGroup = "Gerenciar conteúdo";
+
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -37,15 +39,6 @@ class CategoryResource extends Resource
                         'md' => 12,
                         'lg' => 12,
                     ]),
-
-//                TextInput::make('slug')
-//                    ->rules(['required', 'max:255', 'string'])
-//                    ->placeholder('Slug')
-//                    ->columnSpan([
-//                        'default' => 12,
-//                        'md' => 12,
-//                        'lg' => 12,
-//                    ]),
 
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:2048'])
@@ -95,9 +88,14 @@ class CategoryResource extends Resource
                     ->label('Nome')
                     ->searchable()
                     ->sortable(),
-//                Tables\Columns\TextColumn::make('slug')
-//                    ->limit(50)
-//                    ->label('Endereço'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([
