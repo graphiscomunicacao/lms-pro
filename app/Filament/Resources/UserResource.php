@@ -3,10 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Models\User;
-use Filament\{Forms\Components\BelongsToManyMultiSelect,
+use Filament\{Facades\Filament,
+    Forms\Components\BelongsToManyMultiSelect,
     Forms\Components\Card,
-    Forms\Components\FileUpload,
-    Forms\Components\Group,
     Tables,
     Forms};
 use Filament\Resources\{Form, Table, Resource};
@@ -15,8 +14,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\UserResource\Pages;
 use Filament\Forms\Components\BelongsToSelect;
-use Filament\Tables\Filters\MultiSelectFilter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -33,122 +33,99 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Group::make()
+            Card::make(['default' => 0])
                 ->schema([
-                    Card::make(['default' => 0])
-                        ->schema([
-                            TextInput::make('name')
-                                ->rules(['required', 'max:255', 'string'])
-                                ->placeholder('Nome')
-                                ->label('Nome')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 12,
-                                    'md' => 12,
-                                    'lg' => 12,
-                                ]),
-
-                            TextInput::make('email')
-                                ->rules(['required', 'email'])
-                                ->unique(ignorable: fn (?Model $record): ?Model => $record)
-                                ->email()
-                                ->placeholder('Email')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 12,
-                                    'md' => 12,
-                                    'lg' => 12,
-                                ]),
-
-                            BelongsToSelect::make('role_id')
-                                ->rules(['required', 'exists:roles,id'])
-                                ->relationship('role', 'name')
-                                ->searchable()
-                                ->placeholder('Perfil')
-                                ->label('Perfil')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 6,
-                                    'md' => 6,
-                                    'lg' => 6,
-                                ]),
-
-                            BelongsToSelect::make('job_id')
-                                ->rules(['required', 'exists:jobs,id'])
-                                ->relationship('job', 'name')
-                                ->searchable()
-                                ->placeholder('Cargo')
-                                ->label('Cargo')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 6,
-                                    'md' => 6,
-                                    'lg' => 6,
-                                ]),
-
-                            BelongsToSelect::make('manager_id')
-                                ->rules(['nullable', 'exists:users,id'])
-                                ->relationship('manager', 'name')
-                                ->searchable()
-                                ->placeholder('Responsável')
-                                ->label('Responsável')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 6,
-                                    'md' => 6,
-                                    'lg' => 6,
-                                ]),
-
-                            BelongsToSelect::make('group_id')
-                                ->rules(['exists:groups,id'])
-                                ->relationship('group', 'name')
-                                ->searchable()
-                                ->placeholder('Grupo')
-                                ->label('Grupo')
-                                ->columnSpan([
-                                    'default' => 6,
-                                    'md' => 6,
-                                    'lg' => 6,
-                                ]),
-
-                            BelongsToManyMultiSelect::make('teams')
-                                ->placeholder('Equipes')
-                                ->label('Equipes')
-                                ->relationship('teams', 'name')
-                                ->required()
-                                ->columnSpan([
-                                    'default' => 12,
-                                    'md' => 12,
-                                    'lg' => 12,
-                                ]),
-                        ])
-                        ->columns([
-                            12
-                        ])
+                    TextInput::make('name')
+                        ->rules(['required', 'max:255', 'string'])
+                        ->placeholder('Nome')
+                        ->label('Nome')
+                        ->required()
                         ->columnSpan([
-                            'sm' => 2,
+                            'default' => 12,
+                            'md' => 12,
+                            'lg' => 12,
                         ]),
-                    Card::make()
-                        ->schema([
-                            TextInput::make('password')
-                                ->visibleOn(Pages\EditUser::Class)
-                                ->password()
-                                ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                                ->placeholder('Insira aqui a nova senha')
-                                ->label('Alterar Senha')
-                                ->columnSpan([
-                                    'default' => 12,
-                                    'md' => 12,
-                                    'lg' => 12,
-                                ]),
-                        ])
+
+                    TextInput::make('email')
+                        ->rules(['required', 'email'])
+                        ->unique(ignorable: fn (?Model $record): ?Model => $record)
+                        ->email()
+                        ->placeholder('Email')
+                        ->required()
                         ->columnSpan([
-                            'sm' => 2,
-                        ])
-                    ])
-                    ->columnSpan([
-                        'sm' => 2,
-                    ]),
+                            'default' => 12,
+                            'md' => 12,
+                            'lg' => 12,
+                        ]),
+
+                    BelongsToSelect::make('role_id')
+                        ->rules(['required', 'exists:roles,id'])
+                        ->relationship('role', 'name')
+                        ->searchable()
+                        ->placeholder('Perfil')
+                        ->label('Perfil')
+                        ->required()
+                        ->columnSpan([
+                            'default' => 6,
+                            'md' => 6,
+                            'lg' => 6,
+                        ]),
+
+                    BelongsToSelect::make('job_id')
+                        ->rules(['required', 'exists:jobs,id'])
+                        ->relationship('job', 'name')
+                        ->searchable()
+                        ->placeholder('Cargo')
+                        ->label('Cargo')
+                        ->required()
+                        ->columnSpan([
+                            'default' => 6,
+                            'md' => 6,
+                            'lg' => 6,
+                        ]),
+
+                    BelongsToSelect::make('manager_id')
+                        ->rules(['nullable', 'exists:users,id'])
+                        ->relationship('manager', 'name')
+                        ->searchable()
+                        ->placeholder('Responsável')
+                        ->label('Responsável')
+                        ->required()
+                        ->columnSpan([
+                            'default' => 6,
+                            'md' => 6,
+                            'lg' => 6,
+                        ]),
+
+                    BelongsToSelect::make('group_id')
+                        ->rules(['exists:groups,id'])
+                        ->relationship('group', 'name')
+                        ->searchable()
+                        ->placeholder('Grupo')
+                        ->label('Grupo')
+                        ->columnSpan([
+                            'default' => 6,
+                            'md' => 6,
+                            'lg' => 6,
+                        ]),
+
+                    BelongsToManyMultiSelect::make('teams')
+                        ->placeholder('Equipes')
+                        ->label('Equipes')
+                        ->relationship('teams', 'name')
+                        ->required()
+                        ->columnSpan([
+                            'default' => 12,
+                            'md' => 12,
+                            'lg' => 12,
+                        ]),
+                ])
+                ->columns([
+                    12
+                ])
+                ->columnSpan([
+                    'sm' => 2,
+                ]),
             Card::make()
                 ->schema([
                     Forms\Components\Placeholder::make('created_at')
@@ -172,7 +149,8 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('profile_photo_path')
                     ->rounded()
-                    ->label('Foto de Perfil'),
+                    ->label('Avatar')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nome')
                     ->searchable()
@@ -184,20 +162,62 @@ class UserResource extends Resource
                     ->sortable()
                     ->limit(50),
                 Tables\Columns\TextColumn::make('manager.name')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Responsável')
-                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('role.name')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Perfil')
+                    ->sortable()
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('job.name')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Cargo')
+                    ->sortable()
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('group.name')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Grupo')
                     ->sortable()
                     ->limit(50),
                 Tables\Columns\TagsColumn::make('teams.name')
+                    ->toggleable()
                     ->label('Equipes')
                     ->searchable(),
             ])
             ->defaultSort('name')
+            ->actions([
+                Tables\Actions\Action::make('changePassword')
+                    ->label('Alterar Senha')
+                    ->form([
+                        TextInput::make('new_password')
+                            ->password()
+                            ->label('Nova Senha')
+                            ->required()
+                            ->rule(Password::default()),
+                        TextInput::make('new_password_confirmation')
+                            ->password()
+                            ->label('Repita a Nova Senha')
+                            ->required()
+                            ->same('new_password')
+                            ->rule(Password::default()),
+                    ])
+                    ->icon('heroicon-o-lock-closed')
+                    ->action(function(User $record, array $data) {
+                        $record->update([
+                            'password' => Hash::make($data['new_password'])
+                        ]);
+                        Filament::notify('success', 'Senha alterada com sucesso!');
+                    })
+            ])
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
+                        Forms\Components\DatePicker::make('created_from')
+                            ->label('Criado à partir de'),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->label('Criado até'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -225,24 +245,24 @@ class UserResource extends Resource
                             );
                     }),
 
-                MultiSelectFilter::make('role_id')->relationship(
+                SelectFilter::make('user_id')->relationship(
+                    'manager',
+                    'name'
+                )
+                    ->label('Responsável'),
+
+                SelectFilter::make('role_id')->relationship(
                     'role',
                     'name'
                 )
                 ->label('Perfis'),
 
-                MultiSelectFilter::make('job_id')->relationship(
+                SelectFilter::make('job_id')->relationship(
                     'job', 'name'
                 )
                 ->label('Cargos'),
 
-                MultiSelectFilter::make('user_id')->relationship(
-                    'manager',
-                    'name'
-                )
-                ->label('Responsável'),
-
-                MultiSelectFilter::make('group_id')->relationship(
+                SelectFilter::make('group_id')->relationship(
                     'group',
                     'name'
                 )
@@ -262,5 +282,10 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
     }
 }
