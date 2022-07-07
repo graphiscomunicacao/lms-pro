@@ -110,8 +110,10 @@ class CertificateResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
+                        Forms\Components\DatePicker::make('created_from')
+                            ->label('Criado a partir de'),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->label('Criado até'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -153,5 +155,10 @@ class CertificateResource extends Resource
             'create' => Pages\CreateCertificate::route('/create'),
             'edit' => Pages\EditCertificate::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return self::getModel()::count();
     }
 }

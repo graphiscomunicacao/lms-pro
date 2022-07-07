@@ -14,4 +14,16 @@ class Setting extends Model
     protected $fillable = ['key', 'value'];
 
     protected $searchableFields = ['*'];
+
+    public static function maxStorageSize()
+    {
+        $setting = Setting::select('value')->where('key', '=', 'maxStorageSize')->get()->first();
+
+        if(!$setting) {
+            return 10737418240;
+            // 10GBS EM BYTES //
+        }
+
+        return $setting->value;
+    }
 }
