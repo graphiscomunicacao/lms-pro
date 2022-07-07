@@ -3,8 +3,10 @@
 namespace App\Filament\Widgets;
 
 use App\Models\LearningArtifact;
+use App\Models\Setting;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Illuminate\Support\Facades\DB;
 
 class StatsOverview extends BaseWidget
 {
@@ -14,8 +16,7 @@ class StatsOverview extends BaseWidget
 
     protected function getCards(): array
     {
-        $totalSpace = 10737418240;
-        // 10Gbs
+        $totalSpace = Setting::maxStorageSize();
         $usedSpace = LearningArtifact::sum('size');
         $freeSpace = $totalSpace - $usedSpace;
 

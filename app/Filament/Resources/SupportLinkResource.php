@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Models\Category;
 use App\Models\SupportLink;
-use Filament\{Forms\Components\Card, Tables, Forms};
+use Filament\{Forms\Components\Card, Tables, Forms, Tables\Filters\Filter, Tables\Filters\SelectFilter};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Toggle;
@@ -126,8 +126,10 @@ class SupportLinkResource extends Resource
             ->filters([
                 Tables\Filters\Filter::make('created_at')
                     ->form([
-                        Forms\Components\DatePicker::make('created_from'),
-                        Forms\Components\DatePicker::make('created_until'),
+                        Forms\Components\DatePicker::make('created_from')
+                            ->label('Criado a partir de'),
+                        Forms\Components\DatePicker::make('created_until')
+                            ->label('Criado até'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -154,6 +156,13 @@ class SupportLinkResource extends Resource
                                 )
                             );
                     }),
+
+                SelectFilter::make('same_tab')
+                    ->label('Mesma Aba')
+                    ->options([
+                        '0' => 'Não',
+                        '1' => 'Sim',
+                    ]),
             ]);
     }
 
