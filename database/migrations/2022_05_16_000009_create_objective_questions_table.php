@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('objective_questions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->foreignId('quiz_id')->constrained();
             $table->text('body');
             $table->text('answer_explanation')->nullable();
             $table->boolean('multi_option')->nullable();
