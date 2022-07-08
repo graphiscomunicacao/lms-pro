@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\LearningArtifact;
+use App\Models\Setting;
 use Filament\Widgets\PieChartWidget;
 
 class UsedSpacePieChart extends PieChartWidget
@@ -15,10 +16,8 @@ class UsedSpacePieChart extends PieChartWidget
 
     protected function getData(): array
     {
-        $totalSpace = 10737418240;
-        // 10GBs
+        $totalSpace = Setting::maxStorageSize();
         $usedSpace = LearningArtifact::sum('size');
-//        $freeSpace = $totalSpace - $usedSpace;
 
         $usedPercentage = LearningArtifact::calculatePercentage($usedSpace, $totalSpace);
         $freePercentage = 100 - $usedPercentage;
