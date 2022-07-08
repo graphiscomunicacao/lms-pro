@@ -24,8 +24,10 @@ class ObjectiveQuestionFactory extends Factory
     {
         return [
             'body' => $this->faker->text,
+            'quiz_id' => \App\Models\Quiz::factory(),
             'answer_explanation' => $this->faker->text,
             'multi_option' => $this->faker->boolean,
+            'randomize_options' => $this->faker->boolean,
         ];
     }
 }

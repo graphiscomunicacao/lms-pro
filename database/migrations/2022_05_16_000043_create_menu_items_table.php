@@ -14,11 +14,10 @@ return new class extends Migration {
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('menu_id');
+            $table->foreignId('menu_id')->constrained();
             $table->string('item_type');
             $table->integer('item_id');
             $table->integer('order');
-
             $table->timestamps();
         });
     }

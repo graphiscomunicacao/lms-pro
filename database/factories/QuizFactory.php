@@ -29,6 +29,7 @@ class QuizFactory extends Factory
             'time_limit' => $this->faker->numberBetween(5, 45),
             'cover_path' => asset('img/covers/questionary.svg'),
             'experience_amount' => $this->faker->randomNumber(0),
+            'randomize_questions' => $this->faker->boolean,
         ];
     }
 }
