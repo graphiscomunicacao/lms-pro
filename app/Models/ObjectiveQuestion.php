@@ -13,7 +13,7 @@ class ObjectiveQuestion extends Model
     use Searchable;
     use SoftDeletes;
 
-    protected $fillable = ['body', 'answer_explanation', 'multi_option'];
+    protected $fillable = ['body', 'answer_explanation', 'multi_option', 'sort', 'randomize_options'];
 
     protected $searchableFields = ['*'];
 

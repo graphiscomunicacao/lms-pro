@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('time_limit');
             $table->string('cover_path')->default(asset('img/covers/questionary.svg'));
             $table->integer('experience_amount');
+            $table->boolean('randomize_questions')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
