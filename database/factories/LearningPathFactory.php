@@ -25,7 +25,7 @@ class LearningPathFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->sentence(15),
-            'cover_path' => $this->faker->text(255),
+            'cover_path' => asset('img/covers/learning-path.svg'),
             'start_time' => $this->faker->dateTime,
             'end_time' => $this->faker->dateTime,
             'availability_time' => $this->faker->randomNumber(0),
