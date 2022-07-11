@@ -25,7 +25,7 @@ class CertificateFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->sentence(15),
-            'background_path' => $this->faker->text(255),
+            'background_path' => asset('img/covers/certificate.svg'),
         ];
     }
 }
