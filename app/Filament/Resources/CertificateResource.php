@@ -91,7 +91,8 @@ class CertificateResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('background_path')
                     ->rounded()
-                    ->label('Plano de Fundo'),
+                    ->label('Plano de Fundo')
+                    ->extraHeaderAttributes(['style' => 'width:10px']),
                 Tables\Columns\TextColumn::make('name')
                     ->limit(50)
                     ->label('Nome')

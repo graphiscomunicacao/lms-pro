@@ -8,7 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Mockery\Matcher\Closure;
-use Filament\{Forms\Components\Card, Forms\Components\Group, Forms\Components\TimePicker, Tables, Forms};
+use Filament\{Forms\Components\Card,
+    Forms\Components\Group,
+    Forms\Components\TimePicker,
+    Forms\Components\Toggle,
+    Tables,
+    Forms
+};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
@@ -37,6 +43,10 @@ class QuizResource extends Resource
                     ->schema([
                         Card::make(['default' => 0])
                             ->schema([
+                                Forms\Components\Placeholder::make('Configurações Básicas')
+                                    ->columnSpan([
+                                        'default' => 12,
+                                    ]),
                                 TextInput::make('name')
                                     ->label('Nome')
                                     ->rules(['required', 'max:255', 'string'])
@@ -47,7 +57,6 @@ class QuizResource extends Resource
                                         'md' => 12,
                                         'lg' => 12,
                                     ]),
-
                                 RichEditor::make('description')
                                     ->label('Descrição')
                                     ->rules(['nullable', 'max:255', 'string'])
@@ -57,7 +66,6 @@ class QuizResource extends Resource
                                         'md' => 12,
                                         'lg' => 12,
                                     ]),
-
                                 FileUpload::make('cover_path')
                                     ->label('Capa')
                                     ->rules(['image', 'max:1024'])
@@ -81,32 +89,45 @@ class QuizResource extends Resource
                             ]),
                         Card::make(['default' => 0])
                             ->schema([
+                                Forms\Components\Repeater::make('objectiveQuestions')
+                                    ->relationship('objectiveQuestions')
+                                    ->schema([
+                                        TextInput::make('body')
+                                            ->label('Questão')
+                                            ->rules(['max:255', 'string'])
+                                            ->required()
+                                            ->placeholder('Texto da Questão Objetiva'),
+                                        RichEditor::make('answer_explanation')
+                                            ->label('Explicação da Resposta')
+                                            ->rules(['nullable', 'max:255', 'string'])
+                                            ->placeholder('Explicação da resposta'),
+                                        Toggle::make('randomize_options')
+                                            ->label('Randomizar ordem das alternativas'),
+                                        Forms\Components\Repeater::make('objectiveQuestionOptions')
+                                            ->relationship('objectiveQuestionOptions')
+                                            ->label('Alternativas')
+                                            ->collapsible()
+                                            ->orderable()
+                                            ->maxItems(10)
+                                            ->createItemButtonLabel('Adicionar alternativa')
+                                            ->schema([
+                                                TextInput::make('body')
+                                                    ->label('Alternativa')
+                                                    ->placeholder('Texto da Alternativa')
+                                                    ->required(),
+                                                Toggle::make('is_correct')
+                                                    ->label('Correta')
+                                            ]),
 
-                                TextInput::make('time_limit')
-                                    ->label('Tempo de realização (minutos)')
-                                    ->numeric()
-                                    ->minValue(0)
-                                    ->step(5)
-                                    ->required()
-                                    ->placeholder('Time Limit')
+                                    ])
+                                    ->orderable()
+                                    ->collapsible()
+                                    ->collapsed()
+                                    ->createItemButtonLabel('Adicionar questão')
+                                    ->label('Questões Objetivas')
                                     ->columnSpan([
-                                        'default' => 6,
-                                        'md' => 6,
-                                        'lg' => 6,
+                                        'default' => 12,
                                     ]),
-
-                                TextInput::make('experience_amount')
-                                    ->label('Experiência concedida')
-                                    ->numeric()
-                                    ->minValue(0)
-                                    ->step(10)
-                                    ->placeholder('Experience')
-                                    ->columnSpan([
-                                        'default' => 6,
-                                        'md' => 6,
-                                        'lg' => 6,
-                                    ]),
-
 
                             ])
                             ->columns([
@@ -120,16 +141,43 @@ class QuizResource extends Resource
                     ->columnSpan([
                         'sm' => 2,
                     ]),
-                Card::make()
+                Group::make()
                     ->schema([
-                        Forms\Components\Placeholder::make('created_at')
-                            ->label('Criado')
-                            ->content(fn(?Quiz $record): string => $record ? $record->created_at->diffForHumans() : '-'),
-                        Forms\Components\Placeholder::make('updated_at')
-                            ->label('Modificado')
-                            ->content(fn(?Quiz $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                        Card::make()
+                            ->schema([
+                                Forms\Components\Placeholder::make('created_at')
+                                    ->label('Criado')
+                                    ->content(fn(?Quiz $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                                Forms\Components\Placeholder::make('updated_at')
+                                    ->label('Modificado')
+                                    ->content(fn(?Quiz $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                            ])
+                            ->columnSpan(1),
+                        Card::make()
+                            ->schema([
+                                Forms\Components\Placeholder::make('Configurações Adicionais'),
+                                TextInput::make('time_limit')
+                                    ->label('Tempo de realização (minutos)')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->step(5)
+                                    ->required()
+                                    ->placeholder('Time Limit'),
+                                Forms\Components\MultiSelect::make('categories')
+                                    ->relationship('categories', 'name')
+                                    ->label('Categorias')
+                                    ->required(),
+                                TextInput::make('experience_amount')
+                                    ->label('Experiência concedida')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->step(10)
+                                    ->placeholder('Experience'),
+                                Toggle::make('randomize_questions')
+                                    ->label('Randomizar ordem das questões')
+                            ])
+                            ->columnSpan(1),
                     ])
-                    ->columnSpan(1),
             ])
             ->columns([
                 'sm' => 3,
@@ -146,7 +194,7 @@ class QuizResource extends Resource
                 Tables\Columns\TextColumn::make('name')->limit(50)->label('Nome'),
                 Tables\Columns\TextColumn::make('time_limit')
                     ->label('Tempo para realização')
-                    ->formatStateUsing(fn (string $state): string => date('H:i', mktime(0,$state)) ),
+                    ->formatStateUsing(fn(string $state): string => date('H:i', mktime(0, $state))),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Criado em')
                     ->sortable()
@@ -195,7 +243,7 @@ class QuizResource extends Resource
     public static function getRelations(): array
     {
         return [
-            QuizResource\RelationManagers\ObjectiveQuestionsRelationManager::class,
+//            QuizResource\RelationManagers\ObjectiveQuestionsRelationManager::class,
         ];
     }
 
