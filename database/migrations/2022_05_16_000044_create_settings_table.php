@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('key');
             $table->string('value');
-
             $table->timestamps();
         });
     }

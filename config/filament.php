@@ -4,7 +4,6 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Http\Middleware\MirrorConfigToSubpackages;
 use Filament\Pages;
-use Filament\Tables\Actions\Action;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -34,7 +33,7 @@ return [
     | Filament Core Path
     |--------------------------------------------------------------------------
     |
-    | This is the path which Filament will use to load it's core routes and assets.
+    | This is the path which Filament will use to load its core routes and assets.
     | You may change it if it conflicts with your other routes.
     |
     */
@@ -206,11 +205,7 @@ return [
             'groups' => [
                 'are_collapsible' => true,
             ],
-        ],
-        'tables' => [
-            'actions' => [
-                'type' => Action::class,
-            ],
+            'width' => null,
         ],
     ],
 
@@ -248,6 +243,21 @@ return [
     */
 
     'default_filesystem_disk' => env('FILAMENT_FILESYSTEM_DRIVER', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google Fonts
+    |--------------------------------------------------------------------------
+    |
+    | This is the URL for Google Fonts that should be loaded. You may use any
+    | font, or set to `null` to prevent any Google Fonts from loading.
+    |
+    | When using a custom font, you should also set the font family in your
+    | custom theme's `tailwind.config.js` file.
+    |
+    */
+
+    'google_fonts' => 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap',
 
     /*
     |--------------------------------------------------------------------------

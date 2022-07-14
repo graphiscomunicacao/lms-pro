@@ -1,15 +1,15 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-    darkMode: 'class',
+
     theme: {
         extend: {
             fontFamily: {
@@ -21,12 +21,6 @@ module.exports = {
                 success: colors.green,
                 warning: colors.yellow,
             },
-        },
-    },
-
-    variants: {
-        extend: {
-            opacity: ['disabled'],
         },
     },
 

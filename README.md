@@ -20,6 +20,19 @@ composer install
 cp .env.example .env
 ```
 
+```sh
+composer install
+```
+```sh
+php artisan key:generate
+```
+```sh
+php artisan storage:link
+```
+```sh 
+php artisan migrate:fresh --seed
+```
+
 ## Run tests
 
 ```sh

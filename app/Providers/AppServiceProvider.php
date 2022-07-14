@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //
     }
 
     /**
@@ -27,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         LearningArtifact::observe(LearningArtifactObserver::class);
 
-        Filament::serving(function () {
-            Filament::registerTheme(mix('css/app.css'));
-        });
+//        Filament::serving(function () {
+//            Filament::registerTheme(mix('css/app.css'));
+//        });
     }
 }
