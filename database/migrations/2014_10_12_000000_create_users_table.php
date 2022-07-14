@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('total_experience')->default(0);
@@ -32,7 +32,7 @@ return new class extends Migration {
                 ->references('id')
                 ->on('users')
                 ->constrained()->cascadeOnUpdate()->nullOnDelete();
-            $table->foreignId('current_team_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('current_team_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

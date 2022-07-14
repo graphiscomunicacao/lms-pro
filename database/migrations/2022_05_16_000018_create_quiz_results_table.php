@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('quiz_results', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('quiz_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamp('submited_at');

@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('learning_paths', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('cover_path');
@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->foreignId('certificate_id')->nullable()->constrained();
             $table->integer('experience_amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
