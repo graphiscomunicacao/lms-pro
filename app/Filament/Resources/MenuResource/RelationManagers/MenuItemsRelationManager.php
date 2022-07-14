@@ -19,6 +19,10 @@ class MenuItemsRelationManager extends HasManyRelationManager
 
     protected static ?string $recordTitleAttribute = 'item_type';
 
+    protected static ?string $label = 'Vincular Item';
+
+    protected static ?string $pluralLabel = 'Vincular Itens';
+
     public static function form(Form $form): Form
     {
         return $form->schema([

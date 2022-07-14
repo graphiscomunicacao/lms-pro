@@ -72,7 +72,6 @@ class QuizResource extends Resource
                                     ->image()
                                     ->directory('/img/covers/')
                                     ->required()
-                                    ->placeholder('Selecione uma imagem')
                                     ->columnSpan([
                                         'default' => 12,
                                         'md' => 12,

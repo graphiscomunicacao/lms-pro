@@ -53,7 +53,6 @@ class CertificateResource extends Resource
                     FileUpload::make('background_path')
                         ->rules(['image', 'max:1024'])
                         ->image()
-                        ->placeholder('Plano de Fundo')
                         ->label('Plano de Fundo')
                         ->required()
                         ->columnSpan([

@@ -22,6 +22,8 @@ class UsersRelationManager extends BelongsToManyRelationManager
 
     protected static ?string $label = 'Usuário';
 
+    protected static ?string $pluralLabel = 'Usuários';
+
     public static function form(Form $form): Form
     {
         return $form->schema([

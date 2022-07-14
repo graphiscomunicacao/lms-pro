@@ -43,7 +43,6 @@ class CategoryResource extends Resource
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:2048'])
                     ->image()
-                    ->placeholder('Capa')
                     ->label('Capa')
                     ->required()
                     ->columnSpan([
