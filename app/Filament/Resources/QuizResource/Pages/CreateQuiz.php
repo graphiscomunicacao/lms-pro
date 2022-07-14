@@ -55,7 +55,6 @@ class CreateQuiz extends CreateRecord
                         ->rules(['image', 'max:1024'])
                         ->image()
                         ->required()
-                        ->placeholder('Selecione uma imagem')
                         ->columnSpan([
                             'default' => 12,
                             'md' => 12,

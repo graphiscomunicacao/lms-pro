@@ -78,7 +78,6 @@ class CreateLearningArtifact extends CreateRecord
                         ->rules(['file', 'max:131072'])
                         ->label('Selecione o arquivo')
                         ->required()
-                        ->placeholder('Arquivo')
                         ->visible(fn (Closure $get) => $get('external') === false)
                         ->columnSpan([
                             'default' => 12,
@@ -88,6 +87,7 @@ class CreateLearningArtifact extends CreateRecord
 
                     TextInput::make('url')
                         ->rules(['nullable', 'url'])
+                        ->required()
                         ->url()
                         ->placeholder('Url')
                         ->visible(fn (Closure $get) => $get('external') === true)
@@ -104,7 +104,6 @@ class CreateLearningArtifact extends CreateRecord
                 ->schema([
                     FileUpload::make('cover_path')
                         ->label('Capa')
-                        ->placeholder('Capa')
                         ->rules(['required','image', 'max:1024'])
                         ->image()
                         ->required()

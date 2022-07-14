@@ -66,9 +66,8 @@ class SupportLinkResource extends Resource
                         ]),
 
                     FileUpload::make('cover_path')
-                        ->rules(['image', 'max:1024'])
+                        ->rules(['required', 'image', 'max:1024'])
                         ->image()
-                        ->placeholder('Capa')
                         ->label('Capa')
                         ->required()
                         ->columnSpan([
@@ -121,6 +120,16 @@ class SupportLinkResource extends Resource
                 Tables\Columns\BooleanColumn::make('same_tab')
                     ->label('Mesma Aba')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([

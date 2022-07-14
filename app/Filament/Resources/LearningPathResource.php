@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Models\LearningPath;
 use App\Models\Team;
-use Filament\{Forms\Components\Card, Tables, Forms};
+use Filament\{Forms\Components\Card, Forms\Components\Group, Tables, Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -34,152 +34,167 @@ class LearningPathResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Card::make(['default' => 0])->schema([
-                TextInput::make('name')
-                    ->rules(['required', 'max:255', 'string'])
-                    ->placeholder('Nome')
-                    ->label('Nome')
-                    ->required()
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+            Group::make()
+                ->schema([
+                    Card::make()
+                        ->schema([
+                            TextInput::make('name')
+                                ->rules(['required', 'max:255', 'string'])
+                                ->placeholder('Nome')
+                                ->label('Nome')
+                                ->required()
+                                ->columnSpan([
+                                    'default' => 12,
+                                    'md' => 12,
+                                    'lg' => 12,
+                                ]),
 
-                RichEditor::make('description')
-                    ->rules(['nullable', 'max:255', 'string'])
-                    ->placeholder('Descrição')
-                    ->label('Descrição')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                            RichEditor::make('description')
+                                ->rules(['nullable', 'max:255', 'string'])
+                                ->placeholder('Descrição')
+                                ->label('Descrição')
+                                ->columnSpan([
+                                    'default' => 12,
+                                    'md' => 12,
+                                    'lg' => 12,
+                                ]),
 
-                DateTimePicker::make('start_time')
-                    ->rules(['nullable', 'date'])
-                    ->placeholder('Data Inicial')
-                    ->label('Data Inicial')
-                    ->withoutSeconds()
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                            DateTimePicker::make('start_time')
+                                ->rules(['nullable', 'date'])
+                                ->placeholder('Data Inicial')
+                                ->label('Data Inicial')
+                                ->withoutSeconds()
+                                ->columnSpan([
+                                    'default' => 12,
+                                    'md' => 12,
+                                    'lg' => 12,
+                                ]),
 
-                DateTimePicker::make('end_time')
-                    ->rules(['nullable', 'date'])
-                    ->placeholder('Data Final')
-                    ->label('Data Final')
-                    ->withoutSeconds()
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                            DateTimePicker::make('end_time')
+                                ->rules(['nullable', 'date'])
+                                ->placeholder('Data Final')
+                                ->label('Data Final')
+                                ->withoutSeconds()
+                                ->columnSpan([
+                                    'default' => 12,
+                                    'md' => 12,
+                                    'lg' => 12,
+                                ]),
 
-                TextInput::make('availability_time')
-                    ->rules(['nullable', 'numeric'])
-                    ->numeric()
-                    ->placeholder('Disponível por (dias)')
-                    ->label('Disponível por (dias)')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                            FileUpload::make('cover_path')
+                                ->rules(['required', 'image', 'max:1024'])
+                                ->image()
+                                ->required()
+                                ->label('Capa')
+                                ->columnSpan([
+                                    'default' => 12,
+                                    'md' => 12,
+                                    'lg' => 12,
+                                ]),
 
-                FileUpload::make('cover_path')
-                    ->rules(['image', 'max:1024'])
-                    ->image()
-                    ->label('Capa')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
+                            TextInput::make('passing_score')
+                                ->rules(['required', 'numeric'])
+                                ->required()
+                                ->numeric()
+                                ->placeholder('Nota Mínima Exigida')
+                                ->label('Nota Mínima Exigida (de 0 a 10)')
+                                ->maxValue('10')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
 
-                TextInput::make('passing_score')
-                    ->rules(['required', 'numeric'])
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Nota Mínima Exigida')
-                    ->label('Nota Mínima Exigida')
-                    ->maxValue('10')
-                    ->columnSpan([
-                        'default' => 6,
-                        'md' => 6,
-                        'lg' => 6,
-                    ]),
-
-                TextInput::make('tries')
-                    ->rules(['required', 'numeric'])
-                    ->required()
-                    ->numeric()
-                    ->placeholder('Máximo de Tentativas')
-                    ->label('Máximo de Tentativas')
-                    ->columnSpan([
-                        'default' => 6,
-                        'md' => 6,
-                        'lg' => 6,
-                    ]),
-
-                TextInput::make('approval_goal')
-                    ->rules(['nullable', 'numeric'])
-                    ->numeric()
-                    ->placeholder('Meta de Aprovação')
-                    ->label('Meta de Aprovação')
-                    ->maxValue('100')
-                    ->columnSpan([
-                        'default' => 6,
-                        'md' => 6,
-                        'lg' => 6,
-                    ]),
-
-                TextInput::make('experience_amount')
-                    ->rules(['required'])
-                    ->label('Experiência Concedida')
-                    ->numeric()
-                    ->minValue(0)
-                    ->required()
-                    ->placeholder('Pontos')
-                    ->columnSpan([
-                        'default' => 6,
-                        'md' => 6,
-                        'lg' => 6,
-                    ]),
-
-                BelongsToSelect::make('certificate_id')
-                    ->rules(['required', 'exists:certificates,id'])
-                    ->required()
-                    ->relationship('certificate', 'name')
-                    ->searchable()
-                    ->placeholder('Certificado')
-                    ->label('Certificado')
-                    ->columnSpan([
-                        'default' => 12,
-                        'md' => 12,
-                        'lg' => 12,
-                    ]),
-            ])
-                ->columns([
-                    'sm' => 12,
+                            TextInput::make('tries')
+                                ->rules(['required', 'numeric'])
+                                ->required()
+                                ->numeric()
+                                ->placeholder('Máximo de Tentativas')
+                                ->label('Máximo de Tentativas')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
+                        ])
+                        ->columns([
+                            'default' => 12,
+                            'sm' => 12,
+                        ])
                 ])
                 ->columnSpan([
                     'sm' => 2,
                 ]),
 
-            Card::make()
+            Group::make()
                 ->schema([
-                    Forms\Components\Placeholder::make('created_at')
-                        ->label('Criado')
-                        ->content(fn(?LearningPath $record): string => $record ? $record->created_at->diffForHumans() : '-'),
-                    Forms\Components\Placeholder::make('updated_at')
-                        ->label('Modificado')
-                        ->content(fn(?LearningPath $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
-                ])
-                ->columnSpan(1),
-        ])
+                    Card::make()
+                        ->schema([
+                            Forms\Components\Placeholder::make('created_at')
+                                ->label('Criado')
+                                ->content(fn(?LearningPath $record): string => $record ? $record->created_at->diffForHumans() : '-'),
+                            Forms\Components\Placeholder::make('updated_at')
+                                ->label('Modificado')
+                                ->content(fn(?LearningPath $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
+                        ])
+                        ->columnSpan(1),
+
+                    Card::make()
+                        ->schema([
+                            Forms\Components\Placeholder::make('Configurações Adicionais'),
+
+                            Select::make('certificate_id')
+                                ->rules(['required', 'exists:certificates,id'])
+                                ->required()
+                                ->relationship('certificate', 'name')
+                                ->searchable()
+                                ->placeholder('Certificado')
+                                ->label('Certificado')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
+
+                            TextInput::make('availability_time')
+                                ->rules(['nullable', 'numeric'])
+                                ->numeric()
+                                ->placeholder('Disponível por (dias)')
+                                ->label('Disponível por (dias)')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
+
+                            TextInput::make('approval_goal')
+                                ->rules(['nullable', 'numeric'])
+                                ->numeric()
+                                ->placeholder('Meta de Aprovação')
+                                ->label('Meta de Aprovação (em %)')
+                                ->maxValue('100')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
+
+                            TextInput::make('experience_amount')
+                                ->rules(['required'])
+                                ->label('Experiência Concedida')
+                                ->numeric()
+                                ->minValue(0)
+                                ->required()
+                                ->placeholder('Pontos')
+                                ->columnSpan([
+                                    'default' => 6,
+                                    'md' => 6,
+                                    'lg' => 6,
+                                ]),
+                        ])
+                        ->columnSpan(1),
+                ]),
+            ])
             ->columns([
                 'sm' => 3,
                 'lg' => null,
@@ -225,6 +240,16 @@ class LearningPathResource extends Resource
                     ->date('d/m/y h:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name', 'asc')
             ->filters([
