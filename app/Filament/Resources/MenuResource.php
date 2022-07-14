@@ -53,7 +53,7 @@ class MenuResource extends Resource
                 FileUpload::make('cover_path')
                     ->rules(['image', 'max:1024'])
                     ->image()
-                    ->placeholder('Capa')
+
                     ->label('Capa')
                     ->required()
                     ->columnSpan([

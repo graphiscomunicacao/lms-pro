@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('learning_artifacts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->enum('type', [
                 'audio',
