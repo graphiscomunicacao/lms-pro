@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('objective_question_options', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('objective_question_id')->constrained();
             $table->text('body');
             $table->boolean('is_correct');

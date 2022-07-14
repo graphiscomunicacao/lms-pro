@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('total_experience')->default(0);
@@ -24,14 +24,14 @@ return new class extends Migration {
             $table->text('two_factor_recovery_codes')->nullable();
             $table->timestamp('two_factor_confirmed_at')->nullable();
             $table->text('profile_photo_path')->nullable();
-            $table->foreignId('role_id')->constrained();
-            $table->foreignId('job_id')->constrained();
-            $table->foreignId('group_id')->nullable()->constrained();
+            $table->foreignId('role_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('job_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('group_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('manager_id')
                 ->nullable()
                 ->references('id')
                 ->on('users')
-                ->constrained();
+                ->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->foreignId('current_team_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
