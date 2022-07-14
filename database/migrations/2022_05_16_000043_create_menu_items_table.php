@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('menu_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('menu_id')->constrained();
             $table->string('item_type');
             $table->integer('item_id');

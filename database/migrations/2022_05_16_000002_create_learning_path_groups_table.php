@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('learning_path_groups', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('cover_path');
             $table->string('name');
             $table->text('description')->nullable();

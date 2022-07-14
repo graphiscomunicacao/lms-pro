@@ -11,9 +11,7 @@ use Illuminate\Support\Str;
 
 class Quiz extends Model
 {
-    use HasFactory;
-    use Searchable;
-    use SoftDeletes;
+    use HasFactory, Searchable, SoftDeletes;
 
     protected $fillable = [
         'name',

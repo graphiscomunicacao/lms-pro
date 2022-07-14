@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('experience_details', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('user_id')->constrained();
             $table->integer('experience_amount');
             $table->boolean('is_double');

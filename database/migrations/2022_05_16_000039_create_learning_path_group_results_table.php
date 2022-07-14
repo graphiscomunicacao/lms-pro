@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('learning_path_group_results', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->foreignId('user_id')->constrained();
             $table->dateTime('submited_at');
             $table->integer('score');
