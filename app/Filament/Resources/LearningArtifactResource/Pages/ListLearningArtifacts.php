@@ -14,4 +14,9 @@ class ListLearningArtifacts extends ListRecords
     {
         return view('app/learning_artifacts/table-footer');
     }
+
+    protected function getHeaderWidgets(): array
+    {
+        return LearningArtifactResource::getWidgets();
+    }
 }
