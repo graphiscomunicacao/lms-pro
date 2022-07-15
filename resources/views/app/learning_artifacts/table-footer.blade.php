@@ -8,6 +8,4 @@
        }}
     </div>
 </td>
-<td>
-
-</td>
+<td colspan="3"></td>

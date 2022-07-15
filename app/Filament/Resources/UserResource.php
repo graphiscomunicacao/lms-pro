@@ -185,6 +185,16 @@ class UserResource extends Resource
                     ->toggleable()
                     ->label('Equipes')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Cadastrado em')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->actions([
