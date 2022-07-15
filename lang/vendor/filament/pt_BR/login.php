@@ -25,13 +25,13 @@ return [
         ],
 
         'remember' => [
-            'label' => 'Lembre de mim',
+            'label' => 'Lembrar de mim',
         ],
 
     ],
 
     'messages' => [
-        'failed' => 'Essas credenciais não correspondem aos com nossos registros.',
+        'failed' => 'As credenciais não foram encontradas em nossos registros.',
         'throttled' => 'Muitas tentativas de login. Por favor, aguarde :seconds segundos para tentar novamente.',
     ],
 
