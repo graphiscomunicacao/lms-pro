@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\LearningArtifactResource\Widgets\LearningArtifactOverview;
 use App\Models\LearningArtifact;
 use Filament\{Tables, Forms, Tables\Filters\SelectFilter};
 use Filament\Resources\{Form, Table, Resource};
@@ -30,6 +31,13 @@ class LearningArtifactResource extends Resource
     protected static ?string $navigationGroup = "Gerenciar conteúdo";
 
     public $data;
+
+    public static function getWidgets(): array
+    {
+        return [
+            LearningArtifactOverview::class,
+        ];
+    }
 
     public static function form(Form $form): Form
     {
