@@ -8,13 +8,16 @@ use Filament\Widgets\StatsOverviewWidget\Card;
 
 class GroupOverview extends BaseWidget
 {
+    protected static ?string $pollingInterval = null;
 
     protected function getCards(): array
     {
         return [
-            Card::make('Total de grupos', Group::count()),
-            Card::make('Média de usuarios por grupo', Group::count()),
-            Card::make('Grupos criados hoje', Group::count()),
+            Card::make('Total de grupos:', Group::count()),
+
+            Card::make('Média de usuarios por grupo:', number_format(Group::averageUserPerGroup())),
+
+            Card::make('Grupos recentes (30 dias):', Group::where('created_at', '>', now()->subDays(30))->count()),
         ];
     }
 }

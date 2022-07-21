@@ -52,6 +52,13 @@ class LearningArtifact extends Model
         return $count;
     }
 
+    public static function averageSize()
+    {
+        $totalSize = LearningArtifact::sum('size');
+        $count = LearningArtifact::where('external', '=', 0)->count();
+        return $totalSize / $count;
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

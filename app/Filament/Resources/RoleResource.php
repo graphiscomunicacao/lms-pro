@@ -40,7 +40,7 @@ class RoleResource extends Resource
                             'md' => 12,
                             'lg' => 12,
                         ]),
-                    ])
+                ])
                 ->columns([
                     'sm' => 2,
                 ])
@@ -57,21 +57,31 @@ class RoleResource extends Resource
                         ->content(fn(?Role $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                 ])
                 ->columnSpan(1),
-            ])
-                ->columns([
-                    'sm' => 3,
-                    'lg' => null,
+        ])
+            ->columns([
+                'sm' => 3,
+                'lg' => null,
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([Tables\Columns\TextColumn::make('name')
-                ->label('Nome')
-                ->searchable()
-                ->sortable()
-                ->limit(50)])
+            ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nome')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+            ])
             ->defaultSort('name')
             ->filters([
                 Tables\Filters\Filter::make('created_at')
@@ -87,7 +97,7 @@ class RoleResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -98,7 +108,7 @@ class RoleResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',

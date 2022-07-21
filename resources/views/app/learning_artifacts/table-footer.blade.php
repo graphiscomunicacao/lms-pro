@@ -1,5 +1,5 @@
 <td colspan="6" class="px-4 py-3 filament-tables-text-column">
-    Tamanho Total:
+    Tamanho:
 </td>
 <td colspan="1" class="px-4 py-3 filament-tables-text-column text-center">
     <div>

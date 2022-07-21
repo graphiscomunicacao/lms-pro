@@ -3,11 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GroupResource\Widgets\GroupOverview;
-use App\Models\Certificate;
 use App\Models\Group;
 use Filament\{Forms\Components\Card, Tables, Forms, Tables\Filters\TernaryFilter};
 use Filament\Resources\{Form, Table, Resource};
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\GroupResource\Pages;
