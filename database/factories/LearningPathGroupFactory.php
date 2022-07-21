@@ -23,7 +23,7 @@ class LearningPathGroupFactory extends Factory
     public function definition()
     {
         return [
-            'cover_path' => $this->faker->text(255),
+            'cover_path' => asset('img/covers/learning-path.svg'),
             'name' => $this->faker->name,
             'description' => $this->faker->sentence(15),
             'start_time' => $this->faker->dateTime,

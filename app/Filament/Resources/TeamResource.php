@@ -41,16 +41,6 @@ class TeamResource extends Resource
                             'lg' => 12,
                         ]),
 
-//                    BelongsToManyMultiSelect::make('users')
-//                        ->placeholder('Usuários')
-//                        ->label('Atribuir Usuários')
-//                        ->relationship('users', 'name')
-//                        ->columnSpan([
-//                            'default' => 12,
-//                            'md' => 12,
-//                            'lg' => 12,
-//                        ]),
-
                 ])
                 ->columns([
                     'sm' => 2,
@@ -82,7 +72,15 @@ class TeamResource extends Resource
                 ->label('Nome')
                 ->searchable()
                 ->sortable()
-                ->limit(50)
+                ->limit(50),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Ultima atualização')
+                    ->sortable()
+                    ->date('d/m/y h:i'),
             ])
             ->defaultSort('name')
             ->filters([
@@ -99,7 +97,7 @@ class TeamResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -110,7 +108,7 @@ class TeamResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',

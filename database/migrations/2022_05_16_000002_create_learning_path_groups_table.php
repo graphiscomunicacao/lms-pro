@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->dateTime('end_time')->nullable();
             $table->integer('availability_time')->nullable();
             $table->integer('tries');
-            $table->integer('approval_goal');
+            $table->integer('approval_goal')->nullable();
             $table->integer('passing_score');
             $table->timestamps();
             $table->softDeletes();

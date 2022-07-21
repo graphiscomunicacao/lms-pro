@@ -16,6 +16,23 @@ class Group extends Model
 
     protected $searchableFields = ['*'];
 
+    public static function averageUserPerGroup()
+    {
+        $groupsCount = Group::count();
+        $groups = Group::all();
+
+        if (!$groups || !$groupsCount) return 0;
+
+        $totalUsers = 0;
+
+        foreach ($groups as $group) {
+            $userCount = User::where('group_id', '=', $group->id)->count();
+            $totalUsers += $userCount;
+        }
+
+        return $totalUsers / $groupsCount;
+    }
+
     public function users()
     {
         return $this->hasMany(User::class);

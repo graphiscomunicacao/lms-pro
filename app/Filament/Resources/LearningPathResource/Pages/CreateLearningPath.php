@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\LearningPathResource\Pages;
 
-use Filament\Forms\Components\BelongsToSelect;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Resources\Pages\CreateRecord;
@@ -75,6 +75,7 @@ class CreateLearningPath extends CreateRecord
                 ->schema([
                     DateTimePicker::make('start_time')
                         ->rules(['nullable', 'date'])
+                        ->minDate(now())
                         ->placeholder('Data Inicial')
                         ->label('Data Inicial')
                         ->withoutSeconds()
@@ -148,7 +149,7 @@ class CreateLearningPath extends CreateRecord
                             'lg' => 6,
                         ]),
 
-                    BelongsToSelect::make('certificate_id')
+                    Select::make('certificate_id')
                         ->rules(['required', 'exists:certificates,id'])
                         ->relationship('certificate', 'name')
                         ->searchable()

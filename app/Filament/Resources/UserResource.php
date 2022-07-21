@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Models\Team;
 use App\Models\User;
 use Filament\{Facades\Filament,
-    Forms\Components\BelongsToManyMultiSelect,
     Forms\Components\Card,
+    Forms\Components\MultiSelect,
+    Forms\Components\Select,
     Tables,
     Forms};
 use Filament\Resources\{Form, Table, Resource};
@@ -13,7 +15,6 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Filament\Resources\UserResource\Pages;
-use Filament\Forms\Components\BelongsToSelect;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -58,7 +59,7 @@ class UserResource extends Resource
                             'lg' => 12,
                         ]),
 
-                    BelongsToSelect::make('role_id')
+                    Select::make('role_id')
                         ->rules(['required', 'exists:roles,id'])
                         ->relationship('role', 'name')
                         ->searchable()
@@ -71,7 +72,7 @@ class UserResource extends Resource
                             'lg' => 6,
                         ]),
 
-                    BelongsToSelect::make('job_id')
+                    Select::make('job_id')
                         ->rules(['required', 'exists:jobs,id'])
                         ->relationship('job', 'name')
                         ->searchable()
@@ -84,7 +85,7 @@ class UserResource extends Resource
                             'lg' => 6,
                         ]),
 
-                    BelongsToSelect::make('manager_id')
+                    Select::make('manager_id')
                         ->rules(['nullable', 'exists:users,id'])
                         ->relationship('manager', 'name')
                         ->searchable()
@@ -97,7 +98,7 @@ class UserResource extends Resource
                             'lg' => 6,
                         ]),
 
-                    BelongsToSelect::make('group_id')
+                    Select::make('group_id')
                         ->rules(['exists:groups,id'])
                         ->relationship('group', 'name')
                         ->searchable()
@@ -109,7 +110,7 @@ class UserResource extends Resource
                             'lg' => 6,
                         ]),
 
-                    BelongsToManyMultiSelect::make('teams')
+                    MultiSelect::make('teams')
                         ->placeholder('Equipes')
                         ->label('Equipes')
                         ->relationship('teams', 'name')
@@ -120,9 +121,7 @@ class UserResource extends Resource
                             'lg' => 12,
                         ]),
                 ])
-                ->columns([
-                    12
-                ])
+                ->columns(12)
                 ->columnSpan([
                     'sm' => 2,
                 ]),
@@ -136,7 +135,7 @@ class UserResource extends Resource
                         ->content(fn(?User $record): string => $record ? $record->updated_at->diffForHumans() : '-'),
                 ])
                 ->columnSpan(1),
-            ])
+        ])
             ->columns([
                 'sm' => 3,
                 'lg' => null,
@@ -225,7 +224,7 @@ class UserResource extends Resource
                 Tables\Filters\Filter::make('created_at')
                     ->form([
                         Forms\Components\DatePicker::make('created_from')
-                            ->label('Criado à partir de'),
+                            ->label('Criado a partir de'),
                         Forms\Components\DatePicker::make('created_until')
                             ->label('Criado até'),
                     ])
@@ -235,7 +234,7 @@ class UserResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -246,7 +245,7 @@ class UserResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',
@@ -255,28 +254,25 @@ class UserResource extends Resource
                             );
                     }),
 
-                SelectFilter::make('user_id')->relationship(
-                    'manager',
-                    'name'
-                )
+                SelectFilter::make('user_id')
+                    ->relationship('manager','name')
                     ->label('Responsável'),
 
-                SelectFilter::make('role_id')->relationship(
-                    'role',
-                    'name'
-                )
-                ->label('Perfis'),
+                SelectFilter::make('role_id')
+                    ->relationship('role','name')
+                    ->label('Perfis'),
 
-                SelectFilter::make('job_id')->relationship(
-                    'job', 'name'
-                )
-                ->label('Cargos'),
+                SelectFilter::make('job_id')
+                    ->relationship('job', 'name')
+                    ->label('Cargos'),
 
-                SelectFilter::make('group_id')->relationship(
-                    'group',
-                    'name'
-                )
-                ->label('Grupos'),
+                SelectFilter::make('group_id')
+                    ->relationship('group','name')
+                    ->label('Grupos'),
+
+                SelectFilter::make('team_id')
+                    ->relationship('teams', 'name')
+                    ->label('Equipes'),
             ]);
     }
 

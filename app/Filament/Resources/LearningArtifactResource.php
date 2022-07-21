@@ -115,7 +115,7 @@ class LearningArtifactResource extends Resource
                                 'default' => 12,
                                 'sm' => 12,
                             ])
-                ])
+                    ])
                     ->columnSpan([
                         'sm' => 2,
                     ]),
@@ -150,12 +150,12 @@ class LearningArtifactResource extends Resource
                                     ->placeholder('Pontos'),
                             ])
                             ->columnSpan(1),
-                ])
+                    ])
             ])
-                ->columns([
-                    'sm' => 3,
-                    'lg' => null,
-                ]);
+            ->columns([
+                'sm' => 3,
+                'lg' => null,
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -173,12 +173,12 @@ class LearningArtifactResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->enum([
-                    'audio' => 'Áudio',
-                    'document' => 'Documento',
-                    'interactive' => 'Interativo',
-                    'image' => 'Imagem',
-                    'video' => 'Vídeo',
-                    'externo' => 'Externo',
+                        'audio' => 'Áudio',
+                        'document' => 'Documento',
+                        'interactive' => 'Interativo',
+                        'image' => 'Imagem',
+                        'video' => 'Vídeo',
+                        'externo' => 'Externo',
                     ])
                     ->label('Tipo')
                     ->sortable()
@@ -221,7 +221,7 @@ class LearningArtifactResource extends Resource
                                 $data['created_from'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '>=',
@@ -232,7 +232,7 @@ class LearningArtifactResource extends Resource
                                 $data['created_until'],
                                 fn(
                                     Builder $query,
-                                    $date
+                                            $date
                                 ): Builder => $query->whereDate(
                                     'created_at',
                                     '<=',
