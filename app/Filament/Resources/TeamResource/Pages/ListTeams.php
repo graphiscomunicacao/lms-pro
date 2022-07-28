@@ -8,4 +8,9 @@ use Filament\Resources\Pages\ListRecords;
 class ListTeams extends ListRecords
 {
     protected static string $resource = TeamResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return TeamResource::getWidgets();
+    }
 }

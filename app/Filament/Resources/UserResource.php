@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\Team;
+use App\Filament\Resources\UserResource\Widgets\UserOverview;
 use App\Models\User;
 use Filament\{Facades\Filament,
     Forms\Components\Card,
@@ -30,6 +30,13 @@ class UserResource extends Resource
     protected static ?string $label = 'Usuário';
 
     protected static ?string $navigationGroup = "Gerenciar usuários";
+
+    public static function getWidgets(): array
+    {
+        return [
+            UserOverview::class,
+        ];
+    }
 
     public static function form(Form $form): Form
     {
