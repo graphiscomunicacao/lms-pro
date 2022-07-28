@@ -3,35 +3,18 @@
 namespace App\Models;
 
 use App\Models\Scopes\Searchable;
+use App\Models\Traits\AverageUserTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
-    use HasFactory, Searchable, SoftDeletes;
-
+    use HasFactory, Searchable, SoftDeletes, AverageUserTrait;
 
     protected $fillable = ['name'];
 
     protected $searchableFields = ['*'];
-
-    public static function averageUserPerGroup()
-    {
-        $groupsCount = Group::count();
-        $groups = Group::all();
-
-        if (!$groups || !$groupsCount) return 0;
-
-        $totalUsers = 0;
-
-        foreach ($groups as $group) {
-            $userCount = User::where('group_id', '=', $group->id)->count();
-            $totalUsers += $userCount;
-        }
-
-        return $totalUsers / $groupsCount;
-    }
 
     public function users()
     {

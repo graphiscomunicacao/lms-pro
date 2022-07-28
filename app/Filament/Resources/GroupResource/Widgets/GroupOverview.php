@@ -13,9 +13,9 @@ class GroupOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Total de grupos:', Group::count()),
+            Card::make('Total de Grupos:', Group::count()),
 
-            Card::make('Média de usuarios por grupo:', number_format(Group::averageUserPerGroup())),
+            Card::make('Média de usuários por Grupo:', Group::averageUserPerModel(Group::all())),
 
             Card::make('Grupos recentes (30 dias):', Group::where('created_at', '>', now()->subDays(30))->count()),
         ];

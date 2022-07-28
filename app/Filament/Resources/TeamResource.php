@@ -2,12 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\TeamResource\Widgets\TeamOverview;
 use App\Models\Team;
-use Filament\{Forms\Components\BelongsToManyMultiSelect,
-    Forms\Components\Card,
+use Filament\{Forms\Components\Card,
     Tables,
-    Forms,
-    Tables\Filters\MultiSelectFilter};
+    Forms};
 use Filament\Resources\{Form, Table, Resource};
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,6 +23,13 @@ class TeamResource extends Resource
     protected static ?string $label = 'Equipe';
 
     protected static ?string $navigationGroup = "Gerenciar usuários";
+
+    public static function getWidgets(): array
+    {
+        return [
+            TeamOverview::class,
+        ];
+    }
 
     public static function form(Form $form): Form
     {

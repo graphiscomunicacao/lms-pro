@@ -8,4 +8,9 @@ use Filament\Resources\Pages\ListRecords;
 class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return UserResource::getWidgets();
+    }
 }
